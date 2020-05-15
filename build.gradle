@@ -1,0 +1,48 @@
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.8.0'
+    }
+}
+
+plugins {
+    id 'java'
+//     id 'com.vanniktech.maven.publish' version "0.11.1"
+    id 'signing'
+}
+
+
+group 'io.github.furstenheim'
+version '1.0'
+
+repositories {
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
+
+    mavenCentral()
+}
+
+test {
+    testLogging {
+        events "failed"
+        exceptionFormat "full"
+        showStandardStreams true
+    }
+    useJUnitPlatform()
+}
+
+dependencies {
+    testCompile (
+            "org.junit.jupiter:junit-jupiter-api:5.0.0-M4",
+            "org.hamcrest:hamcrest-library:2.1",
+            "org.junit.jupiter:junit-jupiter-engine:5.5.2",
+            "org.junit.jupiter:junit-jupiter-params:5.4.2",
+            "com.shazam:shazamcrest:0.1"
+    )
+    compile 'org.jsoup:jsoup:1.13.1'
+}
+
