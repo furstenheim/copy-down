@@ -30,13 +30,77 @@ public class CopyNode {
     private static Set<String> BLOCK_ELEMENTS_SET = null;
 
     Element element;
+    CopyNode parent;
 
-    public boolean isBlank () {
-        element.tag()
-        return true;
+    public boolean isCode () {
+        return element.nodeName().toLowerCase() == "code" || parent.isCode();
     }
 
-    private boolean isVoidElementsSet () {
+    public boolean isBlank () {
+        return !isVoid() &&
+               !isMeaningfulWhenBlank() &&
+               // TODO check text is the same as textContent in browser
+               element.text().matches("/^\\s*$/i") &&
+               ! hasVoidElementsSet() &&
+               ! hasMeaningfulWhenBlankElementsSet();
+    }
+    public FlankingWhiteSpaces flankingWhitespace () {
+        String leading = "";
+        String trailing = "";
+        if (!element.isBlock()) {
+            boolean hasLeading = element.text().matches("^\\s");
+            boolean hasTrailing = element.text().matches("\\s$");
+            // TODO maybe make node property and avoid recomputing
+            boolean blankWithSpaces = isBlank() && hasLeading && hasTrailing;
+            if (hasLeading && !isLeftFlankedByWhitespaces()) {
+                leading = " ";
+            }
+            if (!blankWithSpaces && hasTrailing && !isRightFlankedByWhitespaces()) {
+                trailing = " ";
+            }
+        }
+        return new FlankingWhiteSpaces(leading, trailing);
+    }
+
+    private boolean isLeftFlankedByWhitespaces () {
+        return isChildFlankedByWhitespaces(" $", element.previousElementSibling());
+    }
+    private boolean isRightFlankedByWhitespaces () {
+        return isChildFlankedByWhitespaces("^ ", element.nextElementSibling());
+    }
+    private boolean isChildFlankedByWhitespaces (String regex, Element sibling) {
+        if (sibling == null) {
+            return false;
+        }
+        if (isTextNodeType(sibling)) {
+            // TODO fix. Originally sibling.nodeValue
+            return sibling.text().matches(regex);
+        }
+        if (isElementNodeType(sibling)) {
+            // TODO fix. Originally textContent
+            return sibling.text().matches(regex);
+        }
+        return false;
+    }
+    // TODO fix original nodeType 3
+    private boolean isTextNodeType (Element element) {
+        return element.tagName() == "text";
+    }
+    // TODO fix original nodeType 1
+    private boolean isElementNodeType (Element element) {
+        return element.tagName() == "p" || element.tagName() == "div";
+
+    }
+
+    private boolean hasVoidElementsSet () {
+        for (String tagName: VOID_ELEMENTS_SET) {
+            if (element.getElementsByTag(tagName).size() != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean isVoid () {
         return getVoidElementsSet().contains(element.tagName());
     }
     private static Set<String> getVoidElementsSet() {
@@ -47,7 +111,15 @@ public class CopyNode {
         return VOID_ELEMENTS_SET;
     }
 
-    private boolean isMeaningfulWhenBlankElementsSet () {
+    private boolean hasMeaningfulWhenBlankElementsSet () {
+        for (String tagName: MEANINGFUL_WHEN_BLANK_ELEMENTS_SET) {
+            if (element.getElementsByTag(tagName).size() != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean isMeaningfulWhenBlank () {
         return getMeaningfulWhenBlankElementsSet().contains(element.tagName());
     }
     private static Set<String> getMeaningfulWhenBlankElementsSet() {
@@ -58,7 +130,15 @@ public class CopyNode {
         return MEANINGFUL_WHEN_BLANK_ELEMENTS_SET;
     }
 
-    private boolean isBlockElementsSet () {
+    private boolean hasBlockElementsSet () {
+        for (String tagName: BLOCK_ELEMENTS_SET) {
+            if (element.getElementsByTag(tagName).size() != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean isBlock () {
         return getBlockElementsSet().contains(element.tagName());
     }
     private static Set<String> getBlockElementsSet() {
@@ -67,5 +147,23 @@ public class CopyNode {
         }
         BLOCK_ELEMENTS_SET = new HashSet<>(Arrays.asList(BLOCK_ELEMENTS));
         return BLOCK_ELEMENTS_SET;
+    }
+
+    public static class FlankingWhiteSpaces {
+        public String getLeading() {
+            return leading;
+        }
+
+        public String getTrailing() {
+            return trailing;
+        }
+
+        private final String leading;
+        private final String trailing;
+
+        public FlankingWhiteSpaces(String leading, String trailing) {
+            this.leading = leading;
+            this.trailing = trailing;
+        }
     }
 }
