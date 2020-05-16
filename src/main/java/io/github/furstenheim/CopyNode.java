@@ -33,11 +33,12 @@ public class CopyNode {
     CopyNode parent;
 
     public boolean isCode () {
+        // TODO cache in property to avoid escalating to root
         return element.nodeName().toLowerCase() == "code" || parent.isCode();
     }
 
     public boolean isBlank () {
-        return !isVoid() &&
+        return !isVoid(element) &&
                !isMeaningfulWhenBlank() &&
                // TODO check text is the same as textContent in browser
                element.text().matches("/^\\s*$/i") &&
@@ -72,24 +73,15 @@ public class CopyNode {
         if (sibling == null) {
             return false;
         }
-        if (isTextNodeType(sibling)) {
+        if (NodeUtils.isNodeType3(sibling)) {
             // TODO fix. Originally sibling.nodeValue
             return sibling.text().matches(regex);
         }
-        if (isElementNodeType(sibling)) {
+        if (NodeUtils.isNodeType1(sibling)) {
             // TODO fix. Originally textContent
             return sibling.text().matches(regex);
         }
         return false;
-    }
-    // TODO fix original nodeType 3
-    private boolean isTextNodeType (Element element) {
-        return element.tagName() == "text";
-    }
-    // TODO fix original nodeType 1
-    private boolean isElementNodeType (Element element) {
-        return element.tagName() == "p" || element.tagName() == "div";
-
     }
 
     private boolean hasVoidElementsSet () {
@@ -100,7 +92,7 @@ public class CopyNode {
         }
         return false;
     }
-    private boolean isVoid () {
+    public static boolean isVoid (Element element) {
         return getVoidElementsSet().contains(element.tagName());
     }
     private static Set<String> getVoidElementsSet() {
@@ -138,7 +130,7 @@ public class CopyNode {
         }
         return false;
     }
-    private boolean isBlock () {
+    public static boolean isBlock (Element element) {
         return getBlockElementsSet().contains(element.tagName());
     }
     private static Set<String> getBlockElementsSet() {
