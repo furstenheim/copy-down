@@ -16,6 +16,9 @@ public class Rules {
     public Rules (Options options) {
         this.options = options;
         availableRules = new HashMap<>();
+
+        availableRules.put("blankReplacement", new Rule((element) -> CopyNode.isBlank(element), (content, element) ->
+                CopyNode.isBlock(element) ? "\n\n" : ""));
         availableRules.put("paragraph", new Rule("p", (content, element) -> {return "\n\n" + content + "\n\n";}));
         availableRules.put("br", new Rule("br", (content, element) -> {return options.br + "\n";}));
         availableRules.put("heading", new Rule(new String[]{"h1", "h2", "h3", "h4", "h5", "h6" }, (content, element) -> {
@@ -115,7 +118,9 @@ public class Rules {
             }
             return "![" + alt + "]" + "(" + src + titlePart + ")";
         }));
+        availableRules.put("default", new Rule((element -> true), (content, element) -> CopyNode.isBlock(element) ? "\n\n" + content + "\n\n" : content));
         rules = new ArrayList<Rule>(availableRules.values());
+
 
     }
 

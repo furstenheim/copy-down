@@ -46,7 +46,7 @@ public class WhitespaceCollapser {
 
         // Traverse the tree
         while (node != element) {
-            if (NodeUtils.isNodeType3(element) || NodeUtils.isNodeType4(element)) {
+            if (NodeUtils.isNodeType3(node) || NodeUtils.isNodeType4(node)) {
                 String text = node.data().replaceAll("[ \\r\\n\\t]+", " ");
                 if ((prevText != null || prevText.data().matches(" $")) || (!prevVoid && text.charAt(0) == ' ')) {
             text = text.substring(1);
@@ -59,14 +59,14 @@ public class WhitespaceCollapser {
                 // node.data = text
                 // node.replaceWith();
                 // prevText = node ?¿
-            } else if (NodeUtils.isNodeType1(element)) {
-                if (isBlock(element)) {
+            } else if (NodeUtils.isNodeType1(node)) {
+                if (isBlock(node)) {
                     if (prevText != null) {
                         // prevtext.data = prevText.data.replace(/ $/, '')
                     }
                     prevText = null;
                     prevVoid = false;
-                } else if (isVoid(element)) {
+                } else if (isVoid(node)) {
                     // avoid trimming space around non block, non br void elements
                     prevText = null;
                     prevVoid = true;

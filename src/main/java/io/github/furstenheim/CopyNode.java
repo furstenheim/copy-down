@@ -55,13 +55,13 @@ public class CopyNode {
         return element.nodeName().toLowerCase() == "code" || parent.isCode();
     }
 
-    public boolean isBlank () {
+    public static boolean isBlank (Element element) {
         return !isVoid(element) &&
-               !isMeaningfulWhenBlank() &&
+               !isMeaningfulWhenBlank(element) &&
                // TODO check text is the same as textContent in browser
                element.text().matches("/^\\s*$/i") &&
-               ! hasVoidElementsSet() &&
-               ! hasMeaningfulWhenBlankElementsSet();
+               ! hasVoidElementsSet(element) &&
+               ! hasMeaningfulWhenBlankElementsSet(element);
     }
     public FlankingWhiteSpaces flankingWhitespace () {
         String leading = "";
@@ -70,7 +70,7 @@ public class CopyNode {
             boolean hasLeading = element.text().matches("^\\s");
             boolean hasTrailing = element.text().matches("\\s$");
             // TODO maybe make node property and avoid recomputing
-            boolean blankWithSpaces = isBlank() && hasLeading && hasTrailing;
+            boolean blankWithSpaces = isBlank(element) && hasLeading && hasTrailing;
             if (hasLeading && !isLeftFlankedByWhitespaces()) {
                 leading = " ";
             }
@@ -102,7 +102,7 @@ public class CopyNode {
         return false;
     }
 
-    private boolean hasVoidElementsSet () {
+    private static boolean hasVoidElementsSet (Element element) {
         for (String tagName: VOID_ELEMENTS_SET) {
             if (element.getElementsByTag(tagName).size() != 0) {
                 return true;
@@ -121,7 +121,7 @@ public class CopyNode {
         return VOID_ELEMENTS_SET;
     }
 
-    private boolean hasMeaningfulWhenBlankElementsSet () {
+    private static boolean hasMeaningfulWhenBlankElementsSet (Element element) {
         for (String tagName: MEANINGFUL_WHEN_BLANK_ELEMENTS_SET) {
             if (element.getElementsByTag(tagName).size() != 0) {
                 return true;
@@ -129,7 +129,7 @@ public class CopyNode {
         }
         return false;
     }
-    private boolean isMeaningfulWhenBlank () {
+    private static boolean isMeaningfulWhenBlank (Element element) {
         return getMeaningfulWhenBlankElementsSet().contains(element.tagName());
     }
     private static Set<String> getMeaningfulWhenBlankElementsSet() {

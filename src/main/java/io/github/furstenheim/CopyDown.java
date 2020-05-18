@@ -1,6 +1,7 @@
 package io.github.furstenheim;
 
-import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -54,14 +55,15 @@ public class CopyDown {
 
     private String process (CopyNode node) {
         String result = "";
-        for (Element child : node.element.children()) {
+        for (Node child : node.element.childNodes()) {
             CopyNode copyNodeChild = new CopyNode(child, node);
             String replacement = "";
+            // org.jsoup.nodes.TextNode cannot be cast to org.jsoup.nodes.Element
             if (NodeUtils.isNodeType3(child)) {
                 // TODO it should be child.nodeValue
-                replacement = copyNodeChild.isCode() ? child.text() : escape(child.text());
+                replacement = copyNodeChild.isCode() ? ((TextNode)child).text() : escape(((TextNode)child).text());
             } else if (NodeUtils.isNodeType1(child)) {
-                replacement = replacementForNode(node);
+                replacement = replacementForNode(copyNodeChild);
             }
             result = join(result, replacement);
         }
