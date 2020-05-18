@@ -2,13 +2,16 @@ package io.github.furstenheim;
 
 import org.jsoup.nodes.Element;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Rules {
-    private Options options;
-    public Map<String, Rule> availableRules;
+    private final Options options;
+    private final Map<String, Rule> availableRules;
+    private List<Rule> rules;
 
     public Rules (Options options) {
         this.options = options;
@@ -112,7 +115,18 @@ public class Rules {
             }
             return "![" + alt + "]" + "(" + src + titlePart + ")";
         }));
+        rules = new ArrayList<Rule>(availableRules.values());
 
+    }
+
+    public Rule findRule (Element node) {
+        // TODO blank rule
+        for (Rule rule : rules) {
+            if (rule.getFilter().test(node)) {
+                return rule;
+            }
+        }
+        return null;
     }
 
     private String cleanAttribute (String attribute) {

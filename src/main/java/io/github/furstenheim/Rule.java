@@ -26,4 +26,12 @@ public class Rule {
         this.filter = filter;
         this.replacement = replacement;
     }
+
+    public Predicate<Element> getFilter() {
+        return filter;
+    }
+
+    public BiFunction<String, Element, String> getReplacement() {
+        return replacement;
+    }
 }

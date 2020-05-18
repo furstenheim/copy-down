@@ -1,5 +1,7 @@
 package io.github.furstenheim;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.util.Arrays;
@@ -31,6 +33,22 @@ public class CopyNode {
 
     Element element;
     CopyNode parent;
+
+    public CopyNode (String input) {
+        Document document = Jsoup.parse(
+                // DOM parsers arrange elements in the <head> and <body>.
+                // Wrapping in a custom element ensures elements are reliably arranged in
+                // a single element.
+                "<x-copydown id=\"copydown-root\">" + input + "</x-copydown>");
+        Element root = document.getElementById("copydown-root");
+        new WhitespaceCollapser().collapse(root);
+        element = root;
+    }
+
+    public CopyNode (Element node, CopyNode parent) {
+        element = node;
+        this.parent = parent;
+    }
 
     public boolean isCode () {
         // TODO cache in property to avoid escalating to root
