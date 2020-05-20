@@ -1,6 +1,7 @@
 package io.github.furstenheim;
 
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,16 +63,16 @@ public class Rules {
                 }
                 prefix = String.valueOf(parsedStart + index) + ". ";
             }
-            return prefix + content + ((element.nextElementSibling() != null && !content.matches("\n$")) ? "\n": "");
+            return prefix + content + ((element.nextSibling() != null && !content.matches("\n$")) ? "\n": "");
         }));
         availableRules.put("indentedCodeBlock", new Rule((element) -> {
             return options.codeBlockStyle == CodeBlockStyle.INDENTED
                 && element.nodeName() == "PRE"
-                && element.childrenSize() > 0
-                && element.child(0).nodeName() == "CODE";
+                && element.childNodeSize() > 0
+                && element.childNode(0).nodeName() == "CODE";
         }, (content, element) -> {
             // TODO check textContent
-            return "\n\n    " + element.child(0).text().replaceAll("/\n/", "\n    ");
+            return "\n\n    " + element.childNode(0).outerHtml().replaceAll("/\n/", "\n    ");
         }));
 
         // TODO fencedCodeBlock
@@ -124,7 +125,7 @@ public class Rules {
 
     }
 
-    public Rule findRule (Element node) {
+    public Rule findRule (Node node) {
         // TODO blank rule
         for (Rule rule : rules) {
             if (rule.getFilter().test(node)) {

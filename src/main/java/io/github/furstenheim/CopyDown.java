@@ -58,7 +58,7 @@ public class CopyDown {
         for (Node child : node.element.childNodes()) {
             CopyNode copyNodeChild = new CopyNode(child, node);
             String replacement = "";
-            // org.jsoup.nodes.TextNode cannot be cast to org.jsoup.nodes.Element
+            // org.jsoup.nodes.TextNode cannot be cast to org.jsoup.nodes.Node
             if (NodeUtils.isNodeType3(child)) {
                 // TODO it should be child.nodeValue
                 replacement = copyNodeChild.isCode() ? ((TextNode)child).text() : escape(((TextNode)child).text());

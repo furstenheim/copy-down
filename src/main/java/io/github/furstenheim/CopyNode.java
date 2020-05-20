@@ -3,6 +3,7 @@ package io.github.furstenheim;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -31,7 +32,7 @@ public class CopyNode {
     private static Set<String> MEANINGFUL_WHEN_BLANK_ELEMENTS_SET = null;
     private static Set<String> BLOCK_ELEMENTS_SET = null;
 
-    Element element;
+    Node element;
     CopyNode parent;
 
     public CopyNode (String input) {
@@ -45,7 +46,7 @@ public class CopyNode {
         element = root;
     }
 
-    public CopyNode (Element node, CopyNode parent) {
+    public CopyNode (Node node, CopyNode parent) {
         element = node;
         this.parent = parent;
     }
@@ -55,20 +56,21 @@ public class CopyNode {
         return element.nodeName().toLowerCase() == "code" || parent.isCode();
     }
 
-    public static boolean isBlank (Element element) {
+    public static boolean isBlank (Node element) {
         return !isVoid(element) &&
                !isMeaningfulWhenBlank(element) &&
                // TODO check text is the same as textContent in browser
-               element.text().matches("/^\\s*$/i") &&
-               ! hasVoidElementsSet(element) &&
-               ! hasMeaningfulWhenBlankElementsSet(element);
+               element.outerHtml().matches("/^\\s*$/i") &&
+               ! hasVoidNodesSet(element) &&
+               ! hasMeaningfulWhenBlankNodesSet(element);
     }
     public FlankingWhiteSpaces flankingWhitespace () {
         String leading = "";
         String trailing = "";
-        if (!element.isBlock()) {
-            boolean hasLeading = element.text().matches("^\\s");
-            boolean hasTrailing = element.text().matches("\\s$");
+        if (!isBlock(element)) {
+            // TODO original uses textContent
+            boolean hasLeading = element.outerHtml().matches("^\\s");
+            boolean hasTrailing = element.outerHtml().matches("\\s$");
             // TODO maybe make node property and avoid recomputing
             boolean blankWithSpaces = isBlank(element) && hasLeading && hasTrailing;
             if (hasLeading && !isLeftFlankedByWhitespaces()) {
@@ -82,27 +84,32 @@ public class CopyNode {
     }
 
     private boolean isLeftFlankedByWhitespaces () {
-        return isChildFlankedByWhitespaces(" $", element.previousElementSibling());
+        return isChildFlankedByWhitespaces(" $", element.previousSibling());
     }
     private boolean isRightFlankedByWhitespaces () {
-        return isChildFlankedByWhitespaces("^ ", element.nextElementSibling());
+        return isChildFlankedByWhitespaces("^ ", element.nextSibling());
     }
-    private boolean isChildFlankedByWhitespaces (String regex, Element sibling) {
+    private boolean isChildFlankedByWhitespaces (String regex, Node sibling) {
         if (sibling == null) {
             return false;
         }
         if (NodeUtils.isNodeType3(sibling)) {
             // TODO fix. Originally sibling.nodeValue
-            return sibling.text().matches(regex);
+            return sibling.outerHtml().matches(regex);
         }
         if (NodeUtils.isNodeType1(sibling)) {
             // TODO fix. Originally textContent
-            return sibling.text().matches(regex);
+            return sibling.outerHtml().matches(regex);
         }
         return false;
     }
 
-    private static boolean hasVoidElementsSet (Element element) {
+    private static boolean hasVoidNodesSet (Node node) {
+        if (!(node instanceof Element)) {
+            return false;
+        }
+        Element element = (Element) node;
+
         for (String tagName: VOID_ELEMENTS_SET) {
             if (element.getElementsByTag(tagName).size() != 0) {
                 return true;
@@ -110,10 +117,10 @@ public class CopyNode {
         }
         return false;
     }
-    public static boolean isVoid (Element element) {
-        return getVoidElementsSet().contains(element.tagName());
+    public static boolean isVoid (Node element) {
+        return getVoidNodesSet().contains(element.nodeName());
     }
-    private static Set<String> getVoidElementsSet() {
+    private static Set<String> getVoidNodesSet() {
         if (VOID_ELEMENTS_SET != null) {
             return VOID_ELEMENTS_SET;
         }
@@ -121,7 +128,11 @@ public class CopyNode {
         return VOID_ELEMENTS_SET;
     }
 
-    private static boolean hasMeaningfulWhenBlankElementsSet (Element element) {
+    private static boolean hasMeaningfulWhenBlankNodesSet (Node node) {
+        if (!(node instanceof Element)) {
+            return false;
+        }
+        Element element = (Element) node;
         for (String tagName: MEANINGFUL_WHEN_BLANK_ELEMENTS_SET) {
             if (element.getElementsByTag(tagName).size() != 0) {
                 return true;
@@ -129,10 +140,10 @@ public class CopyNode {
         }
         return false;
     }
-    private static boolean isMeaningfulWhenBlank (Element element) {
-        return getMeaningfulWhenBlankElementsSet().contains(element.tagName());
+    private static boolean isMeaningfulWhenBlank (Node element) {
+        return getMeaningfulWhenBlankNodesSet().contains(element.nodeName());
     }
-    private static Set<String> getMeaningfulWhenBlankElementsSet() {
+    private static Set<String> getMeaningfulWhenBlankNodesSet() {
         if (MEANINGFUL_WHEN_BLANK_ELEMENTS_SET != null) {
             return MEANINGFUL_WHEN_BLANK_ELEMENTS_SET;
         }
@@ -140,7 +151,11 @@ public class CopyNode {
         return MEANINGFUL_WHEN_BLANK_ELEMENTS_SET;
     }
 
-    private boolean hasBlockElementsSet () {
+    private boolean hasBlockNodesSet (Node node) {
+        if (!(node instanceof Element)) {
+            return false;
+        }
+        Element element = (Element) node;
         for (String tagName: BLOCK_ELEMENTS_SET) {
             if (element.getElementsByTag(tagName).size() != 0) {
                 return true;
@@ -148,10 +163,10 @@ public class CopyNode {
         }
         return false;
     }
-    public static boolean isBlock (Element element) {
-        return getBlockElementsSet().contains(element.tagName());
+    public static boolean isBlock (Node element) {
+        return getBlockNodesSet().contains(element.nodeName());
     }
-    private static Set<String> getBlockElementsSet() {
+    private static Set<String> getBlockNodesSet() {
         if (BLOCK_ELEMENTS_SET != null) {
             return BLOCK_ELEMENTS_SET;
         }
