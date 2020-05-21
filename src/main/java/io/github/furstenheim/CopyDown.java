@@ -38,19 +38,19 @@ public class CopyDown {
         }
     }
     List<Escape> escapes = Arrays.asList(
-            new Escape("\\", "\\\\"),
-            new Escape("*", "\\*"),
-            new Escape("^-", "\\-"),
-            new Escape("^+ ", "\\+ "),
-            new Escape("^(=+)", "\\$1"),
-            new Escape("^(#{1,6}) ", "\\$1 "),
-            new Escape("`", "\\`"),
-            new Escape("^~~~", "\\~~~"),
-            new Escape("[", "\\["),
-            new Escape(")", "\\)"),
-            new Escape("^>", "\\>"),
-            new Escape("_", "\\_"),
-            new Escape("^(\\d+). ", "$1\\. ")
+            new Escape("\\\\", "\\\\\\\\"),
+            new Escape("\\*", "\\\\*"),
+            new Escape("^-", "\\\\-"),
+            new Escape("^\\+ ", "\\\\+ "),
+            new Escape("^(=+)", "\\\\$1"),
+            new Escape("^(#{1,6}) ", "\\\\$1 "),
+            new Escape("`", "\\\\`"),
+            new Escape("^~~~", "\\\\~~~"),
+            new Escape("\\[", "\\\\["),
+            new Escape("\\)", "\\\\)"),
+            new Escape("^>", "\\\\>"),
+            new Escape("_", "\\\\_"),
+            new Escape("^(\\d+)\\. ", "$1\\\\. ")
     );
 
     private String process (CopyNode node) {
