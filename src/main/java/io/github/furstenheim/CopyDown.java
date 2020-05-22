@@ -3,9 +3,6 @@ package io.github.furstenheim;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -13,20 +10,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CopyDown {
-    public static void main (String[] args) throws IOException {
-        String htmlFile = new String(Files.readAllBytes(Paths.get(
-                "src/main/resources/gastronomia_y_cia_1.html")));
-        CopyDown copyDown = new CopyDown();
-        System.out.println("--------");
-        copyDown.convert(htmlFile);
-
-    }
     Rules rules;
-    public void convert (String input) {
+    public String convert (String input) {
         CopyNode copyRootNode = new CopyNode(input);
         rules = new Rules(new Options.OptionsBuilder().build());
-        String process = process(copyRootNode);
-        System.out.println(process);
+        String result = process(copyRootNode);
+        return result;
     }
     private class Escape {
         String pattern;
