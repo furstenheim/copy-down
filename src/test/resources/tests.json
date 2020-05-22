@@ -9,7 +9,7 @@
     "name": "multiple ps",
     "options": null,
     "input": "\n        <p>Lorem</p>\n        <p>ipsum</p>\n        <p>sit</p>\n    ",
-    "output": "Lorem\n\n    ipsum\n\n    sit"
+    "output": "Lorem\n\nipsum\n\nsit"
   },
   {
     "name": "em",
@@ -81,7 +81,7 @@
     "name": "h1",
     "options": null,
     "input": "<h1>Level One Heading</h1>",
-    "output": "Level One Heading\n    ================="
+    "output": "Level One Heading\n================="
   },
   {
     "name": "escape = when used as heading",
@@ -105,7 +105,7 @@
     "name": "h2",
     "options": null,
     "input": "<h2>Level Two Heading</h2>",
-    "output": "Level Two Heading\n    -----------------"
+    "output": "Level Two Heading\n-----------------"
   },
   {
     "name": "h2 as atx",
@@ -153,13 +153,13 @@
     "name": "br",
     "options": null,
     "input": "More<br>after the break",
-    "output": "More\n    after the break"
+    "output": "More\nafter the break"
   },
   {
     "name": "br with visible line-ending",
     "options": "{\"br\": \"\\\\\"}",
     "input": "More<br>after the break",
-    "output": "More\\\n    after the break"
+    "output": "More\\\nafter the break"
   },
   {
     "name": "img with no alt",
@@ -188,20 +188,20 @@
   {
     "name": "img with a new line in alt",
     "options": null,
-    "input": "<img src=\"logo.png\" alt=\"img with\n        alt\">",
-    "output": "![img with\n    alt](logo.png)"
+    "input": "<img src=\"logo.png\" alt=\"img with\n    alt\">",
+    "output": "![img with\nalt](logo.png)"
   },
   {
     "name": "img with more than one new line in alt",
     "options": null,
-    "input": "<img src=\"logo.png\" alt=\"img with\n\n        alt\">",
-    "output": "![img with\n    alt](logo.png)"
+    "input": "<img src=\"logo.png\" alt=\"img with\n\n    alt\">",
+    "output": "![img with\nalt](logo.png)"
   },
   {
     "name": "img with new lines in title",
     "options": null,
-    "input": "<img src=\"logo.png\" title=\"the\n\n        title\">",
-    "output": "![](logo.png \"the\n    title\")"
+    "input": "<img src=\"logo.png\" title=\"the\n\n    title\">",
+    "output": "![](logo.png \"the\ntitle\")"
   },
   {
     "name": "a",
@@ -218,8 +218,8 @@
   {
     "name": "a with multiline title",
     "options": null,
-    "input": "<a href=\"http://example.com\" title=\"Title for\n\n        link\">An anchor</a>",
-    "output": "[An anchor](http://example.com \"Title for\n    link\")"
+    "input": "<a href=\"http://example.com\" title=\"Title for\n\n    link\">An anchor</a>",
+    "output": "[An anchor](http://example.com \"Title for\nlink\")"
   },
   {
     "name": "a without a src",
@@ -237,49 +237,49 @@
     "name": "a reference",
     "options": "{\"linkStyle\": \"referenced\"}",
     "input": "<a href=\"http://example.com\">Reference link</a>",
-    "output": "[Reference link][1]\n\n    [1]: http://example.com"
+    "output": "[Reference link][1]\n\n[1]: http://example.com"
   },
   {
     "name": "a reference with collapsed style",
     "options": "{\"linkStyle\": \"referenced\", \"linkReferenceStyle\": \"collapsed\"}",
     "input": "<a href=\"http://example.com\">Reference link with collapsed style</a>",
-    "output": "[Reference link with collapsed style][]\n\n    [Reference link with collapsed style]: http://example.com"
+    "output": "[Reference link with collapsed style][]\n\n[Reference link with collapsed style]: http://example.com"
   },
   {
     "name": "a reference with shortcut style",
     "options": "{\"linkStyle\": \"referenced\", \"linkReferenceStyle\": \"shortcut\"}",
     "input": "<a href=\"http://example.com\">Reference link with shortcut style</a>",
-    "output": "[Reference link with shortcut style]\n\n    [Reference link with shortcut style]: http://example.com"
+    "output": "[Reference link with shortcut style]\n\n[Reference link with shortcut style]: http://example.com"
   },
   {
     "name": "pre/code block",
     "options": null,
-    "input": "<pre><code>def code_block\n      # 42 &lt; 9001\n      \"Hello world!\"\n    end</code></pre>",
-    "output": "    def code_block\n          # 42 &lt; 9001\n          \"Hello world!\"\n        end"
+    "input": "<pre><code>def code_block\n  # 42 &lt; 9001\n  \"Hello world!\"\nend</code></pre>",
+    "output": "    def code_block\n      # 42 &lt; 9001\n      \"Hello world!\"\n    end"
   },
   {
     "name": "multiple pre/code blocks",
     "options": null,
-    "input": "<pre><code>def first_code_block\n      # 42 &lt; 9001\n      \"Hello world!\"\n    end</code></pre>\n\n        <p>next:</p>\n\n        <pre><code>def second_code_block\n      # 42 &lt; 9001\n      \"Hello world!\"\n    end</code></pre>",
-    "output": "    def first_code_block\n          # 42 &lt; 9001\n          \"Hello world!\"\n        end\n\n    next:\n\n        def second_code_block\n          # 42 &lt; 9001\n          \"Hello world!\"\n        end"
+    "input": "<pre><code>def first_code_block\n  # 42 &lt; 9001\n  \"Hello world!\"\nend</code></pre>\n\n        <p>next:</p>\n\n        <pre><code>def second_code_block\n  # 42 &lt; 9001\n  \"Hello world!\"\nend</code></pre>",
+    "output": "    def first_code_block\n      # 42 &lt; 9001\n      \"Hello world!\"\n    end\n\nnext:\n\n    def second_code_block\n      # 42 &lt; 9001\n      \"Hello world!\"\n    end"
   },
   {
     "name": "pre/code block with multiple new lines",
     "options": null,
-    "input": "<div><pre><code>Multiple new lines\n\n\n    should not be\n\n\n    removed</code></pre></div>",
-    "output": "    Multiple new lines\n\n\n        should not be\n\n\n        removed"
+    "input": "<div><pre><code>Multiple new lines\n\n\nshould not be\n\n\nremoved</code></pre></div>",
+    "output": "    Multiple new lines\n\n\n    should not be\n\n\n    removed"
   },
   {
     "name": "fenced pre/code block",
     "options": "{\"codeBlockStyle\": \"fenced\"}",
     "input": "\n        <pre><code>def a_fenced_code block; end</code></pre>\n    ",
-    "output": "```\n    def a_fenced_code block; end\n    ```"
+    "output": "```\ndef a_fenced_code block; end\n```"
   },
   {
     "name": "pre/code block fenced with ~",
     "options": "{\"codeBlockStyle\": \"fenced\", \"fence\": \"~~~\"}",
     "input": "\n        <pre><code>def a_fenced_code block; end</code></pre>\n    ",
-    "output": "~~~\n    def a_fenced_code block; end\n    ~~~"
+    "output": "~~~\ndef a_fenced_code block; end\n~~~"
   },
   {
     "name": "escaping ~~~",
@@ -297,7 +297,7 @@
     "name": "fenced pre/code block with language",
     "options": "{\"codeBlockStyle\": \"fenced\"}",
     "input": "\n        <pre><code class=\"language-ruby\">def a_fenced_code block; end</code></pre>\n    ",
-    "output": "```ruby\n    def a_fenced_code block; end\n    ```"
+    "output": "```ruby\ndef a_fenced_code block; end\n```"
   },
   {
     "name": "empty pre does not throw error",
@@ -309,91 +309,91 @@
     "name": "ol",
     "options": null,
     "input": "\n        <ol>\n            <li>Ordered list item 1</li>\n            <li>Ordered list item 2</li>\n            <li>Ordered list item 3</li>\n        </ol>\n    ",
-    "output": "1.  Ordered list item 1\n    2.  Ordered list item 2\n    3.  Ordered list item 3"
+    "output": "1.  Ordered list item 1\n2.  Ordered list item 2\n3.  Ordered list item 3"
   },
   {
     "name": "ol with start",
     "options": null,
     "input": "\n        <ol start=\"42\">\n            <li>Ordered list item 42</li>\n            <li>Ordered list item 43</li>\n            <li>Ordered list item 44</li>\n        </ol>\n    ",
-    "output": "42.  Ordered list item 42\n    43.  Ordered list item 43\n    44.  Ordered list item 44"
+    "output": "42.  Ordered list item 42\n43.  Ordered list item 43\n44.  Ordered list item 44"
   },
   {
     "name": "list spacing",
     "options": null,
     "input": "\n        <p>A paragraph.</p>\n        <ol>\n            <li>Ordered list item 1</li>\n            <li>Ordered list item 2</li>\n            <li>Ordered list item 3</li>\n        </ol>\n        <p>Another paragraph.</p>\n        <ul>\n            <li>Unordered list item 1</li>\n            <li>Unordered list item 2</li>\n            <li>Unordered list item 3</li>\n        </ul>\n    ",
-    "output": "A paragraph.\n\n    1.  Ordered list item 1\n    2.  Ordered list item 2\n    3.  Ordered list item 3\n\n    Another paragraph.\n\n    *   Unordered list item 1\n    *   Unordered list item 2\n    *   Unordered list item 3"
+    "output": "A paragraph.\n\n1.  Ordered list item 1\n2.  Ordered list item 2\n3.  Ordered list item 3\n\nAnother paragraph.\n\n*   Unordered list item 1\n*   Unordered list item 2\n*   Unordered list item 3"
   },
   {
     "name": "ul",
     "options": null,
     "input": "\n        <ul>\n            <li>Unordered list item 1</li>\n            <li>Unordered list item 2</li>\n            <li>Unordered list item 3</li>\n        </ul>\n    ",
-    "output": "*   Unordered list item 1\n    *   Unordered list item 2\n    *   Unordered list item 3"
+    "output": "*   Unordered list item 1\n*   Unordered list item 2\n*   Unordered list item 3"
   },
   {
     "name": "ul with custom bullet",
     "options": "{\"bulletListMarker\": \"-\"}",
     "input": "\n        <ul>\n            <li>Unordered list item 1</li>\n            <li>Unordered list item 2</li>\n            <li>Unordered list item 3</li>\n        </ul>\n    ",
-    "output": "-   Unordered list item 1\n    -   Unordered list item 2\n    -   Unordered list item 3"
+    "output": "-   Unordered list item 1\n-   Unordered list item 2\n-   Unordered list item 3"
   },
   {
     "name": "ul with paragraph",
     "options": null,
     "input": "\n        <ul>\n            <li><p>List item with paragraph</p></li>\n            <li>List item without paragraph</li>\n        </ul>\n    ",
-    "output": "*   List item with paragraph\n\n    *   List item without paragraph"
+    "output": "*   List item with paragraph\n\n*   List item without paragraph"
   },
   {
     "name": "ol with paragraphs",
     "options": null,
     "input": "\n        <ol>\n            <li>\n                <p>This is a paragraph in a list item.</p>\n                <p>This is a paragraph in the same list item as above.</p>\n            </li>\n            <li>\n                <p>A paragraph in a second list item.</p>\n            </li>\n        </ol>\n    ",
-    "output": "1.  This is a paragraph in a list item.\n\n        This is a paragraph in the same list item as above.\n\n    2.  A paragraph in a second list item."
+    "output": "1.  This is a paragraph in a list item.\n\n    This is a paragraph in the same list item as above.\n\n2.  A paragraph in a second list item."
   },
   {
     "name": "nested uls",
     "options": null,
     "input": "\n        <ul>\n            <li>This is a list item at root level</li>\n            <li>This is another item at root level</li>\n            <li>\n                <ul>\n                    <li>This is a nested list item</li>\n                    <li>This is another nested list item</li>\n                    <li>\n                        <ul>\n                            <li>This is a deeply nested list item</li>\n                            <li>This is another deeply nested list item</li>\n                            <li>This is a third deeply nested list item</li>\n                        </ul>\n                    </li>\n                </ul>\n            </li>\n            <li>This is a third item at root level</li>\n        </ul>\n    ",
-    "output": "*   This is a list item at root level\n    *   This is another item at root level\n    *   *   This is a nested list item\n        *   This is another nested list item\n        *   *   This is a deeply nested list item\n            *   This is another deeply nested list item\n            *   This is a third deeply nested list item\n    *   This is a third item at root level"
+    "output": "*   This is a list item at root level\n*   This is another item at root level\n*   *   This is a nested list item\n    *   This is another nested list item\n    *   *   This is a deeply nested list item\n        *   This is another deeply nested list item\n        *   This is a third deeply nested list item\n*   This is a third item at root level"
   },
   {
     "name": "nested ols and uls",
     "options": null,
     "input": "\n        <ul>\n            <li>This is a list item at root level</li>\n            <li>This is another item at root level</li>\n            <li>\n                <ol>\n                    <li>This is a nested list item</li>\n                    <li>This is another nested list item</li>\n                    <li>\n                        <ul>\n                            <li>This is a deeply nested list item</li>\n                            <li>This is another deeply nested list item</li>\n                            <li>This is a third deeply nested list item</li>\n                        </ul>\n                    </li>\n                </ol>\n            </li>\n            <li>This is a third item at root level</li>\n        </ul>\n    ",
-    "output": "*   This is a list item at root level\n    *   This is another item at root level\n    *   1.  This is a nested list item\n        2.  This is another nested list item\n        3.  *   This is a deeply nested list item\n            *   This is another deeply nested list item\n            *   This is a third deeply nested list item\n    *   This is a third item at root level"
+    "output": "*   This is a list item at root level\n*   This is another item at root level\n*   1.  This is a nested list item\n    2.  This is another nested list item\n    3.  *   This is a deeply nested list item\n        *   This is another deeply nested list item\n        *   This is a third deeply nested list item\n*   This is a third item at root level"
   },
   {
     "name": "ul with blockquote",
     "options": null,
     "input": "\n        <ul>\n            <li>\n                <p>A list item with a blockquote:</p>\n                <blockquote>\n                    <p>This is a blockquote inside a list item.</p>\n                </blockquote>\n            </li>\n        </ul>\n    ",
-    "output": "*   A list item with a blockquote:\n\n        &gt; This is a blockquote inside a list item."
+    "output": "*   A list item with a blockquote:\n\n    &gt; This is a blockquote inside a list item."
   },
   {
     "name": "blockquote",
     "options": null,
     "input": "\n        <blockquote>\n            <p>This is a paragraph within a blockquote.</p>\n            <p>This is another paragraph within a blockquote.</p>\n        </blockquote>\n    ",
-    "output": "&gt; This is a paragraph within a blockquote.\n    &gt;\n    &gt; This is another paragraph within a blockquote."
+    "output": "&gt; This is a paragraph within a blockquote.\n&gt;\n&gt; This is another paragraph within a blockquote."
   },
   {
     "name": "nested blockquotes",
     "options": null,
     "input": "\n        <blockquote>\n            <p>This is the first level of quoting.</p>\n            <blockquote>\n                <p>This is a paragraph in a nested blockquote.</p>\n            </blockquote>\n            <p>Back to the first level.</p>\n        </blockquote>\n    ",
-    "output": "&gt; This is the first level of quoting.\n    &gt;\n    &gt; &gt; This is a paragraph in a nested blockquote.\n    &gt;\n    &gt; Back to the first level."
+    "output": "&gt; This is the first level of quoting.\n&gt;\n&gt; &gt; This is a paragraph in a nested blockquote.\n&gt;\n&gt; Back to the first level."
   },
   {
     "name": "html in blockquote",
     "options": null,
     "input": "\n        <blockquote>\n            <h2>This is a header.</h2>\n            <ol>\n                <li>This is the first list item.</li>\n                <li>This is the second list item.</li>\n            </ol>\n            <p>A code block:</p>\n            <pre><code>return 1 &lt; 2 ? shell_exec('echo $input | $markdown_script') : 0;</code></pre>\n        </blockquote>\n    ",
-    "output": "&gt; This is a header.\n    &gt; -----------------\n    &gt;\n    &gt; 1.  This is the first list item.\n    &gt; 2.  This is the second list item.\n    &gt;\n    &gt; A code block:\n    &gt;\n    &gt;     return 1 &lt; 2 ? shell_exec('echo $input | $markdown_script') : 0;"
+    "output": "&gt; This is a header.\n&gt; -----------------\n&gt;\n&gt; 1.  This is the first list item.\n&gt; 2.  This is the second list item.\n&gt;\n&gt; A code block:\n&gt;\n&gt;     return 1 &lt; 2 ? shell_exec('echo $input | $markdown_script') : 0;"
   },
   {
     "name": "multiple divs",
     "options": null,
     "input": "\n        <div>A div</div>\n        <div>Another div</div>\n    ",
-    "output": "A div\n\n    Another div"
+    "output": "A div\n\nAnother div"
   },
   {
     "name": "multiple divs",
     "options": null,
     "input": "\n        <div>A div</div>\n        <div>Another div</div>\n    ",
-    "output": "A div\n\n    Another div"
+    "output": "A div\n\nAnother div"
   },
   {
     "name": "comment",
@@ -417,13 +417,13 @@
     "name": "trailing whitespace in li",
     "options": null,
     "input": "\n        <ol>\n            <li>Chapter One\n                <ol>\n                    <li>Section One</li>\n                    <li>Section Two with trailing whitespace </li>\n                    <li>Section Three with trailing whitespace </li>\n                </ol>\n            </li>\n            <li>Chapter Two</li>\n            <li>Chapter Three with trailing whitespace  </li>\n        </ol>\n    ",
-    "output": "1.  Chapter One\n        1.  Section One\n        2.  Section Two with trailing whitespace\n        3.  Section Three with trailing whitespace\n    2.  Chapter Two\n    3.  Chapter Three with trailing whitespace"
+    "output": "1.  Chapter One\n    1.  Section One\n    2.  Section Two with trailing whitespace\n    3.  Section Three with trailing whitespace\n2.  Chapter Two\n3.  Chapter Three with trailing whitespace"
   },
   {
     "name": "multilined and bizarre formatting",
     "options": null,
     "input": "\n        <ul>\n            <li>\n                Indented li with leading/trailing newlines\n            </li>\n            <li>\n                <strong>Strong with trailing space inside li with leading/trailing whitespace </strong> </li>\n            <li>li without whitespace</li>\n            <li> Leading space, text, lots of whitespace …\n                text\n            </li>\n            \n    </ul>",
-    "output": "*   Indented li with leading/trailing newlines\n    *   **Strong with trailing space inside li with leading/trailing whitespace**\n    *   li without whitespace\n    *   Leading space, text, lots of whitespace … text"
+    "output": "*   Indented li with leading/trailing newlines\n*   **Strong with trailing space inside li with leading/trailing whitespace**\n*   li without whitespace\n*   Leading space, text, lots of whitespace … text"
   },
   {
     "name": "whitespace between inline elements",
@@ -453,7 +453,7 @@
     "name": "blank block elements",
     "options": null,
     "input": "\n        Text before blank div … <div></div> text after blank div\n    ",
-    "output": "Text before blank div …\n\n    text after blank div"
+    "output": "Text before blank div …\n\ntext after blank div"
   },
   {
     "name": "blank inline element with br",
@@ -465,7 +465,7 @@
     "name": "whitespace between blocks",
     "options": null,
     "input": "<div><div>Content in a nested div</div></div>\n        <div>Content in another div</div>",
-    "output": "Content in a nested div\n\n    Content in another div"
+    "output": "Content in a nested div\n\nContent in another div"
   },
   {
     "name": "escaping backslashes",
@@ -663,7 +663,7 @@
     "name": "non-markdown block elements",
     "options": null,
     "input": "\n        Foo\n        <div>Bar</div>\n        Baz\n    ",
-    "output": "Foo\n\n    Bar\n\n    Baz"
+    "output": "Foo\n\nBar\n\nBaz"
   },
   {
     "name": "non-markdown inline elements",
@@ -704,25 +704,25 @@
   {
     "name": "triple tildes inside code",
     "options": "{\"codeBlockStyle\": \"fenced\", \"fence\": \"~~~\"}",
-    "input": "\n    <pre><code>~~~\n    Code\n    ~~~\n    </code></pre>\n    ",
-    "output": "~~~~\n    ~~~\n    Code\n    ~~~\n    ~~~~"
+    "input": "\n<pre><code>~~~\nCode\n~~~\n</code></pre>\n    ",
+    "output": "~~~~\n~~~\nCode\n~~~\n~~~~"
   },
   {
     "name": "triple ticks inside code",
     "options": "{\"codeBlockStyle\": \"fenced\", \"fence\": \"```\"}",
-    "input": "\n    <pre><code>```\n    Code\n    ```\n    </code></pre>\n    ",
-    "output": "````\n    ```\n    Code\n    ```\n    ````"
+    "input": "\n<pre><code>```\nCode\n```\n</code></pre>\n    ",
+    "output": "````\n```\nCode\n```\n````"
   },
   {
     "name": "four ticks inside code",
     "options": "{\"codeBlockStyle\": \"fenced\", \"fence\": \"```\"}",
-    "input": "\n    <pre><code>````\n    Code\n    ````\n    </code></pre>\n    ",
-    "output": "`````\n    ````\n    Code\n    ````\n    `````"
+    "input": "\n<pre><code>````\nCode\n````\n</code></pre>\n    ",
+    "output": "`````\n````\nCode\n````\n`````"
   },
   {
     "name": "empty line in start/end of code block",
     "options": "{\"codeBlockStyle\": \"fenced\", \"fence\": \"```\"}",
-    "input": "\n    <pre><code>\n    Code\n\n    </code></pre>\n    ",
-    "output": "```\n\n    Code\n\n    ```"
+    "input": "\n<pre><code>\nCode\n\n</code></pre>\n    ",
+    "output": "```\n\nCode\n\n```"
   }
 ]
