@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 public class Rule {
     private Predicate<Node> filter;
     private BiFunction<String, Node, String> replacement;
+    public String name;
 
     public Rule (String filter, BiFunction<String, Node, String> replacement) {
         this.filter = (el) -> el.nodeName().toLowerCase() == filter;

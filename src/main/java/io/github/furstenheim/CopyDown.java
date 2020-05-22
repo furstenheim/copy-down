@@ -15,7 +15,7 @@ public class CopyDown {
         CopyNode copyRootNode = new CopyNode(input);
         rules = new Rules(new Options.OptionsBuilder().build());
         String result = process(copyRootNode);
-        return result;
+        return postProcess(result);
     }
     private class Escape {
         String pattern;
@@ -42,6 +42,10 @@ public class CopyDown {
             new Escape("^(\\d+)\\. ", "$1\\\\. ")
     );
 
+    private String postProcess (String output) {
+        // TODO append logic
+        return output.replaceAll("^[\\t\\n\\r]+", "").replaceAll("[\\t\\r\\n\\s]+$", "");
+    }
     private String process (CopyNode node) {
         String result = "";
         for (Node child : node.element.childNodes()) {
