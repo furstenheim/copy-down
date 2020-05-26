@@ -1,6 +1,7 @@
 package io.github.furstenheim;
 
-import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
 
 /**
  * The Whitespace collapser is originally adapted from collapse-whitespace
@@ -34,35 +35,36 @@ public class WhitespaceCollapser {
      * Remove extraneous whitespace from the given element
      * @param element
      */
-    public void collapse (Element element) {
-        if (element.childrenSize() == 0 || isPre(element)) {
+    public void collapse (Node element) {
+        if (element.childNodeSize() == 0 || isPre(element)) {
             return;
         }
 
-        Element prevText = null;
+        TextNode prevText = null;
         boolean prevVoid = false;
-        Element prev = null;
-        Element node = next(prev, element);
+        Node prev = null;
+        Node node = next(prev, element);
 
         // Traverse the tree
         while (node != element) {
             if (NodeUtils.isNodeType3(node) || NodeUtils.isNodeType4(node)) {
-                String text = node.data().replaceAll("[ \\r\\n\\t]+", " ");
-                if ((prevText != null || prevText.data().matches(" $")) || (!prevVoid && text.charAt(0) == ' ')) {
-            text = text.substring(1);
+                TextNode textNode = (TextNode) node;
+                String value = textNode.attributes().get("#text").replaceAll("[ \\r\\n\\t]+", " ");
+                if (!(prevText == null || value.matches(" $")) && (!prevVoid && value.charAt(0) == ' ')) {
+            value = value.substring(1);
                 }
-                if (text.length() == 0) {
+                if (value.length() == 0) {
                     node = remove(node);
                     continue;
                 }
-                // TODO not available in jsoup. Maybe by parsing new node and inserting
-                // node.data = text
-                // node.replaceWith();
-                // prevText = node ?¿
+                TextNode newNode = new TextNode(value);
+                node.replaceWith(newNode);
+                prevText = newNode;
+                node = newNode;
             } else if (NodeUtils.isNodeType1(node)) {
                 if (isBlock(node)) {
                     if (prevText != null) {
-                        // prevtext.data = prevText.data.replace(/ $/, '')
+                        prevText.text(prevText.text().replaceAll(" $",""));
                     }
                     prevText = null;
                     prevVoid = false;
@@ -75,13 +77,13 @@ public class WhitespaceCollapser {
                 node = remove(node);
                 continue;
             }
-            Element nextNode = next(prev, node);
+            Node nextNode = next(prev, node);
             prev = node;
             node = nextNode;
         }
         if (prevText != null) {
-            // prevText.data = prevText.data.replace(/ $/, '')
-            if (prevText.data() == null) {
+            prevText.text(prevText.text().replaceAll(" $", ""));
+            if (prevText.text() == null) {
                 remove(prevText);
             }
         }
@@ -95,38 +97,38 @@ public class WhitespaceCollapser {
      * @param {Node} node
      * @return {Node} node
      */
-    private Element remove (Element node) {
-        Element next = node.nextElementSibling() != null ? node.nextElementSibling() : (Element)node.parentNode();
+    private Node remove (Node node) {
+        Node next = node.nextSibling() != null ? node.nextSibling() : (Node)node.parentNode();
         node.remove();
         return next;
     }
     /**
      * Returns next node in the sequence given current and previous nodes
      */
-    private Element next (Element prev, Element current) {
+    private Node next (Node prev, Node current) {
         if ((prev != null && prev.parent() == current) || isPre(current)) {
             // TODO beware parentNode might not be element
-            return current.nextElementSibling() != null ? current.nextElementSibling() : (Element)current.parentNode();
+            return current.nextSibling() != null ? current.nextSibling() : current.parentNode();
         }
-        if (current.childrenSize() != 0) {
-            return current.child(0);
+        if (current.childNodeSize() != 0) {
+            return current.childNode(0);
         }
-        if (current.nextElementSibling() != null) {
-            return current.nextElementSibling();
+        if (current.nextSibling() != null) {
+            return current.nextSibling();
         }
-        return (Element)current.parentNode();
+        return (Node)current.parentNode();
     }
-    private boolean isPre (Element element) {
+    private boolean isPre (Node element) {
         // TODO allow to override with lambda in options
         return element.nodeName() == "PRE";
     }
 
-    private boolean isBlock (Element element) {
+    private boolean isBlock (Node element) {
         // TODO allow to override with lambda in optiosn
         return CopyNode.isBlock(element) ||  element.nodeName() == "BR";
     }
 
-    private boolean isVoid (Element element) {
+    private boolean isVoid (Node element) {
         // Allow to override
         return CopyNode.isVoid(element);
     }

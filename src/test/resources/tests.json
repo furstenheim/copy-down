@@ -8,7 +8,7 @@
   {
     "name": "multiple ps",
     "options": null,
-    "input": "\n        <p>Lorem</p>\n        <p>ipsum</p>\n        <p>sit</p>\n    ",
+    "input": "\n        <p>Lorem</p>\n    \n\n\n\n\n\n\n\n    <p>ipsum</p>\n        <p>sit</p>\n    ",
     "output": "Lorem\n\nipsum\n\nsit"
   },
   {
