@@ -120,12 +120,12 @@ public class WhitespaceCollapser {
     }
     private boolean isPre (Node element) {
         // TODO allow to override with lambda in options
-        return element.nodeName() == "PRE";
+        return element.nodeName().equals("pre");
     }
 
     private boolean isBlock (Node element) {
         // TODO allow to override with lambda in optiosn
-        return CopyNode.isBlock(element) ||  element.nodeName() == "BR";
+        return CopyNode.isBlock(element) ||  element.nodeName().equals("br");
     }
 
     private boolean isVoid (Node element) {

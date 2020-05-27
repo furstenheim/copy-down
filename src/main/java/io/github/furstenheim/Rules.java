@@ -6,6 +6,8 @@ import org.jsoup.nodes.Node;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Rules {
     private final Options options;
@@ -35,7 +37,7 @@ public class Rules {
         }));
         addRule("list", new Rule(new String[] { "ul", "ol" }, (content, element) -> {
             Element parent = (Element) element.parentNode();
-            if (parent.nodeName() == "LI" && parent.child(parent.childrenSize() - 1) == element) {
+            if (parent.nodeName().equals("li") && parent.child(parent.childrenSize() - 1) == element) {
                 return "\n" + content;
             } else {
                 return "\n\n" + content + "\n\n";
@@ -47,11 +49,11 @@ public class Rules {
             .replaceAll("(?m)\n", "\n    "); // indent
             String prefix = options.bulletListMaker + "    ";
             Element parent = (Element)element.parentNode();
-            if (parent.nodeName() == "OL") {
+            if (parent.nodeName().equals("ol")) {
                 String start = parent.attr("start");
                 int index = parent.children().indexOf(element);
                 int parsedStart = 1;
-                if (start != "") {
+                if (start.length() != 0) {
                     try {
                         parsedStart = Integer.valueOf(start);
                     } catch (NumberFormatException e) {
@@ -64,9 +66,9 @@ public class Rules {
         }));
         addRule("indentedCodeBlock", new Rule((element) -> {
             return options.codeBlockStyle == CodeBlockStyle.INDENTED
-                && element.nodeName() == "PRE"
+                && element.nodeName().equals("pre")
                 && element.childNodeSize() > 0
-                && element.childNode(0).nodeName() == "CODE";
+                && element.childNode(0).nodeName().equals("code");
         }, (content, element) -> {
             // TODO check textContent
             return "\n\n    " + element.childNode(0).outerHtml().replaceAll("/\n/", "\n    ");
@@ -79,12 +81,12 @@ public class Rules {
         }));
         addRule("inlineLink", new Rule((element) -> {
             return options.linkStyle == LinkStyle.INLINED
-                    && element.nodeName() == "A"
-                    && element.attr("href") != "";
+                    && element.nodeName().equals("a")
+                    && element.attr("href").length() != 0;
         }, (content, element) -> {
             String href = element.attr("href");
             String title = cleanAttribute(element.attr("title"));
-            if (title != "") {
+            if (title.length() != 0) {
                 title = " \"" + title + "\"";
             }
             return "["+ content + "](" + href + title + ")";
@@ -102,16 +104,48 @@ public class Rules {
             }
             return options.strongDelimiter + content + options.strongDelimiter;
         }));
-        // TODO code
+        addRule("code", new Rule((element) -> {
+            boolean hasSiblings = element.previousSibling() != null || element.nextSibling() != null;
+            boolean isCodeBlock = element.parentNode().nodeName().equals("pre") && !hasSiblings;
+            return element.nodeName().equals("code") && !isCodeBlock;
+        }, (content, element) -> {
+            if (content.trim().length() == 0) {
+                return "";
+            }
+            String delimiter = "`";
+            String leadingSpace = "";
+            String trailingSpace = "";
+            Pattern pattern = Pattern.compile("(?m)(`)+");
+            Matcher matcher = pattern.matcher(content);
+            if (matcher.find()) {
+                if (content.matches("^`")) {
+                    leadingSpace = " ";
+                }
+                if (content.matches("`$")) {
+                    trailingSpace = " ";
+                }
+                int counter = 1;
+                if (delimiter.equals(matcher.group())) {
+                    counter++;
+                }
+                while (matcher.find()) {
+                    if (delimiter.equals(matcher.group())) {
+                        counter++;
+                    }
+                }
+                delimiter = String.join("", Collections.nCopies(counter, "`"));
+            }
+            return delimiter + leadingSpace + content + trailingSpace + delimiter;
+        }));
         addRule("img", new Rule("img", (content, element) -> {
             String alt = cleanAttribute(element.attr("alt"));
             String src = element.attr("src");
-            if (src == "") {
+            if (src.length() == 0) {
                 return "";
             }
             String title = cleanAttribute(element.attr("title"));
             String titlePart = "";
-            if (title != "") {
+            if (title.length() != 0) {
                 titlePart = " \"" + title + "\"";
             }
             return "![" + alt + "]" + "(" + src + titlePart + ")";

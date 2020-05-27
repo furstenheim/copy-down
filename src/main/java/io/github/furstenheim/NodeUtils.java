@@ -15,7 +15,7 @@ public class NodeUtils {
     }
     */// Text node
     public static boolean isNodeType3 (Node element) {
-        return element.nodeName() == "text" || element.nodeName() == "#text";
+        return element.nodeName().equals("text") || element.nodeName().equals("#text");
     }/*
     public static boolean isNodeType3 (Node element) {
         return element.tagName() == "text";

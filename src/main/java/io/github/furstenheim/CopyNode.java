@@ -53,7 +53,7 @@ public class CopyNode {
 
     public boolean isCode () {
         // TODO cache in property to avoid escalating to root
-        return element.nodeName().toLowerCase() == "code" || (parent != null && parent.isCode());
+        return element.nodeName().equals("code") || (parent != null && parent.isCode());
     }
 
     public static boolean isBlank (Node element) {
