@@ -62,7 +62,7 @@ public class Rules {
                 }
                 prefix = String.valueOf(parsedStart + index) + ". ";
             }
-            return prefix + content + ((element.nextSibling() != null && !content.matches("\n$")) ? "\n": "");
+            return prefix + content + (element.nextSibling() != null && !Pattern.compile("\n$").matcher(content).find() ? "\n": "");
         }));
         addRule("indentedCodeBlock", new Rule((element) -> {
             return options.codeBlockStyle == CodeBlockStyle.INDENTED
@@ -118,10 +118,10 @@ public class Rules {
             Pattern pattern = Pattern.compile("(?m)(`)+");
             Matcher matcher = pattern.matcher(content);
             if (matcher.find()) {
-                if (content.matches("^`")) {
+                if (Pattern.compile("^`").matcher(content).find()) {
                     leadingSpace = " ";
                 }
-                if (content.matches("`$")) {
+                if (Pattern.compile("`$").matcher(content).find()) {
                     trailingSpace = " ";
                 }
                 int counter = 1;

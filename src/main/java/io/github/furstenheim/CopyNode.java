@@ -8,6 +8,7 @@ import org.jsoup.nodes.Node;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class CopyNode {
     private static final String[] VOID_ELEMENTS = {
@@ -60,17 +61,17 @@ public class CopyNode {
         return !isVoid(element) &&
                !isMeaningfulWhenBlank(element) &&
                // TODO check text is the same as textContent in browser
-               element.outerHtml().matches("/^\\s*$/i") &&
-               ! hasVoidNodesSet(element) &&
-               ! hasMeaningfulWhenBlankNodesSet(element);
+               Pattern.compile("/^\\s*$/i").matcher(element.outerHtml()).find() &&
+               !hasVoidNodesSet(element) &&
+               !hasMeaningfulWhenBlankNodesSet(element);
     }
     public FlankingWhiteSpaces flankingWhitespace () {
         String leading = "";
         String trailing = "";
         if (!isBlock(element)) {
             // TODO original uses textContent
-            boolean hasLeading = element.outerHtml().matches("^\\s");
-            boolean hasTrailing = element.outerHtml().matches("\\s$");
+            boolean hasLeading = Pattern.compile("^\\s").matcher(element.outerHtml()).find();
+            boolean hasTrailing = Pattern.compile("\\s$").matcher(element.outerHtml()).find();
             // TODO maybe make node property and avoid recomputing
             boolean blankWithSpaces = isBlank(element) && hasLeading && hasTrailing;
             if (hasLeading && !isLeftFlankedByWhitespaces()) {
@@ -95,11 +96,11 @@ public class CopyNode {
         }
         if (NodeUtils.isNodeType3(sibling)) {
             // TODO fix. Originally sibling.nodeValue
-            return sibling.outerHtml().matches(regex);
+            return Pattern.compile(regex).matcher(sibling.outerHtml()).find();
         }
         if (NodeUtils.isNodeType1(sibling)) {
             // TODO fix. Originally textContent
-            return sibling.outerHtml().matches(regex);
+            return Pattern.compile(regex).matcher(sibling.outerHtml()).find();
         }
         return false;
     }
