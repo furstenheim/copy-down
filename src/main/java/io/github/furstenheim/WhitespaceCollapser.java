@@ -52,7 +52,7 @@ public class WhitespaceCollapser {
             if (NodeUtils.isNodeType3(node) || NodeUtils.isNodeType4(node)) {
                 TextNode textNode = (TextNode) node;
                 String value = textNode.attributes().get("#text").replaceAll("[ \\r\\n\\t]+", " ");
-                if ((prevText == null || Pattern.compile(" $").matcher(value).find()) &&!prevVoid && value.charAt(0) == ' ') {
+                if ((prevText == null || Pattern.compile(" $").matcher(prevText.text()).find()) &&!prevVoid && value.charAt(0) == ' ') {
             value = value.substring(1);
                 }
                 if (value.length() == 0) {
