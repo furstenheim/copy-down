@@ -32,7 +32,7 @@ public class Rules {
         }));
         addRule("blockquote", new Rule("blockquote", (content, element) -> {
             content = content.replaceAll("^\n+|\n+$", "");
-            content = content.replaceAll("(?m)^\n+|\n+$", "");
+            content = content.replaceAll("(?m)^", "> ");
             return "\n\n" + content + "\n\n";
         }));
         addRule("list", new Rule(new String[] { "ul", "ol" }, (content, element) -> {
@@ -47,7 +47,7 @@ public class Rules {
             content = content.replaceAll("^\n+", "") // remove leading new lines
             .replaceAll("\n+$", "\n") // remove trailing new lines with just a single one
             .replaceAll("(?m)\n", "\n    "); // indent
-            String prefix = options.bulletListMaker + "    ";
+            String prefix = options.bulletListMaker + "   ";
             Element parent = (Element)element.parentNode();
             if (parent.nodeName().equals("ol")) {
                 String start = parent.attr("start");
@@ -60,7 +60,7 @@ public class Rules {
                         e.printStackTrace();
                     }
                 }
-                prefix = String.valueOf(parsedStart + index) + ". ";
+                prefix = String.valueOf(parsedStart + index) + ".  ";
             }
             return prefix + content + (element.nextSibling() != null && !Pattern.compile("\n$").matcher(content).find() ? "\n": "");
         }));
