@@ -8,7 +8,7 @@
   {
     "name": "multiple ps",
     "options": null,
-    "input": "\n        <p>Lorem</p>\n    \n\n\n\n\n\n\n\n    <p>ipsum</p>\n        <p>sit</p>\n    ",
+    "input": "\n        <p>Lorem</p>\n        <p>ipsum</p>\n        <p>sit</p>\n    ",
     "output": "Lorem\n\nipsum\n\nsit"
   },
   {
@@ -153,7 +153,7 @@
     "name": "br",
     "options": null,
     "input": "More<br>after the break",
-    "output": "More\nafter the break"
+    "output": "More  \nafter the break"
   },
   {
     "name": "br with visible line-ending",
@@ -194,13 +194,13 @@
   {
     "name": "img with more than one new line in alt",
     "options": null,
-    "input": "<img src=\"logo.png\" alt=\"img with\n\n    alt\">",
+    "input": "<img src=\"logo.png\" alt=\"img with\n    \n    alt\">",
     "output": "![img with\nalt](logo.png)"
   },
   {
     "name": "img with new lines in title",
     "options": null,
-    "input": "<img src=\"logo.png\" title=\"the\n\n    title\">",
+    "input": "<img src=\"logo.png\" title=\"the\n    \n    title\">",
     "output": "![](logo.png \"the\ntitle\")"
   },
   {
@@ -218,7 +218,7 @@
   {
     "name": "a with multiline title",
     "options": null,
-    "input": "<a href=\"http://example.com\" title=\"Title for\n\n    link\">An anchor</a>",
+    "input": "<a href=\"http://example.com\" title=\"Title for\n    \n    link\">An anchor</a>",
     "output": "[An anchor](http://example.com \"Title for\nlink\")"
   },
   {
@@ -267,7 +267,7 @@
     "name": "pre/code block with multiple new lines",
     "options": null,
     "input": "<div><pre><code>Multiple new lines\n\n\nshould not be\n\n\nremoved</code></pre></div>",
-    "output": "    Multiple new lines\n\n\n    should not be\n\n\n    removed"
+    "output": "    Multiple new lines\n    \n    \n    should not be\n    \n    \n    removed"
   },
   {
     "name": "fenced pre/code block",
@@ -339,13 +339,13 @@
     "name": "ul with paragraph",
     "options": null,
     "input": "\n        <ul>\n            <li><p>List item with paragraph</p></li>\n            <li>List item without paragraph</li>\n        </ul>\n    ",
-    "output": "*   List item with paragraph\n\n*   List item without paragraph"
+    "output": "*   List item with paragraph\n    \n*   List item without paragraph"
   },
   {
     "name": "ol with paragraphs",
     "options": null,
     "input": "\n        <ol>\n            <li>\n                <p>This is a paragraph in a list item.</p>\n                <p>This is a paragraph in the same list item as above.</p>\n            </li>\n            <li>\n                <p>A paragraph in a second list item.</p>\n            </li>\n        </ol>\n    ",
-    "output": "1.  This is a paragraph in a list item.\n\n    This is a paragraph in the same list item as above.\n\n2.  A paragraph in a second list item."
+    "output": "1.  This is a paragraph in a list item.\n    \n    This is a paragraph in the same list item as above.\n    \n2.  A paragraph in a second list item."
   },
   {
     "name": "nested uls",
@@ -363,25 +363,25 @@
     "name": "ul with blockquote",
     "options": null,
     "input": "\n        <ul>\n            <li>\n                <p>A list item with a blockquote:</p>\n                <blockquote>\n                    <p>This is a blockquote inside a list item.</p>\n                </blockquote>\n            </li>\n        </ul>\n    ",
-    "output": "*   A list item with a blockquote:\n\n    &gt; This is a blockquote inside a list item."
+    "output": "*   A list item with a blockquote:\n    \n    &gt; This is a blockquote inside a list item."
   },
   {
     "name": "blockquote",
     "options": null,
     "input": "\n        <blockquote>\n            <p>This is a paragraph within a blockquote.</p>\n            <p>This is another paragraph within a blockquote.</p>\n        </blockquote>\n    ",
-    "output": "&gt; This is a paragraph within a blockquote.\n&gt;\n&gt; This is another paragraph within a blockquote."
+    "output": "&gt; This is a paragraph within a blockquote.\n&gt; \n&gt; This is another paragraph within a blockquote."
   },
   {
     "name": "nested blockquotes",
     "options": null,
     "input": "\n        <blockquote>\n            <p>This is the first level of quoting.</p>\n            <blockquote>\n                <p>This is a paragraph in a nested blockquote.</p>\n            </blockquote>\n            <p>Back to the first level.</p>\n        </blockquote>\n    ",
-    "output": "&gt; This is the first level of quoting.\n&gt;\n&gt; &gt; This is a paragraph in a nested blockquote.\n&gt;\n&gt; Back to the first level."
+    "output": "&gt; This is the first level of quoting.\n&gt; \n&gt; &gt; This is a paragraph in a nested blockquote.\n&gt; \n&gt; Back to the first level."
   },
   {
     "name": "html in blockquote",
     "options": null,
     "input": "\n        <blockquote>\n            <h2>This is a header.</h2>\n            <ol>\n                <li>This is the first list item.</li>\n                <li>This is the second list item.</li>\n            </ol>\n            <p>A code block:</p>\n            <pre><code>return 1 &lt; 2 ? shell_exec('echo $input | $markdown_script') : 0;</code></pre>\n        </blockquote>\n    ",
-    "output": "&gt; This is a header.\n&gt; -----------------\n&gt;\n&gt; 1.  This is the first list item.\n&gt; 2.  This is the second list item.\n&gt;\n&gt; A code block:\n&gt;\n&gt;     return 1 &lt; 2 ? shell_exec('echo $input | $markdown_script') : 0;"
+    "output": "&gt; This is a header.\n&gt; -----------------\n&gt; \n&gt; 1.  This is the first list item.\n&gt; 2.  This is the second list item.\n&gt; \n&gt; A code block:\n&gt; \n&gt;     return 1 &lt; 2 ? shell_exec('echo $input | $markdown_script') : 0;"
   },
   {
     "name": "multiple divs",

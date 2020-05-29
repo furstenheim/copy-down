@@ -24,7 +24,7 @@ public class Options {
     }
 
     public static final class OptionsBuilder {
-        public String br = " ";
+        public String br = "  ";
         public String hr = "* * *";
         public String emDelimiter = "_";
         public String strongDelimiter = "**";
