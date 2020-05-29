@@ -12,21 +12,21 @@ import java.util.regex.Pattern;
 
 public class CopyNode {
     private static final String[] VOID_ELEMENTS = {
-            "AREA", "BASE", "BR", "COL", "COMMAND", "EMBED", "HR", "IMG", "INPUT",
-            "KEYGEN", "LINK", "META", "PARAM", "SOURCE", "TRACK", "WBR"
+            "area", "base", "br", "col", "command", "embed", "hr", "img", "input",
+            "keygen", "link", "meta", "param", "source", "track", "wbr"
     };
     private static final String[] MEANINGFUL_WHEN_BLANK_ELEMENTS = {
-            "A", "TABLE", "THEAD", "TBODY", "TFOOT", "TH", "TD", "IFRAME", "SCRIPT",
-            "AUDIO", "VIDEO"
+            "a", "table", "thead", "tbody", "tfoot", "th", "td", "iframe", "script",
+            "audio", "video"
             };
 
     private static final String[] BLOCK_ELEMENTS = {
-            "ADDRESS", "ARTICLE", "ASIDE", "AUDIO", "BLOCKQUOTE", "BODY", "CANVAS",
-            "CENTER", "DD", "DIR", "DIV", "DL", "DT", "FIELDSET", "FIGCAPTION", "FIGURE",
-            "FOOTER", "FORM", "FRAMESET", "H1", "H2", "H3", "H4", "H5", "H6", "HEADER",
-            "HGROUP", "HR", "HTML", "ISINDEX", "LI", "MAIN", "MENU", "NAV", "NOFRAMES",
-            "NOSCRIPT", "OL", "OUTPUT", "P", "PRE", "SECTION", "TABLE", "TBODY", "TD",
-            "TFOOT", "TH", "THEAD", "TR", "UL"
+            "address", "article", "aside", "audio", "blockquote", "body", "canvas",
+            "center", "dd", "dir", "div", "dl", "dt", "fieldset", "figcaption", "figure",
+            "footer", "form", "frameset", "h1", "h2", "h3", "h4", "h5", "h6", "header",
+            "hgroup", "hr", "html", "isindex", "li", "main", "menu", "nav", "noframes",
+            "noscript", "ol", "output", "p", "pre", "section", "table", "tbody", "td",
+            "tfoot", "th", "thead", "tr", "ul"
             };
 
     private static Set<String> VOID_ELEMENTS_SET = null;

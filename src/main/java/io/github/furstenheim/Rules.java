@@ -153,7 +153,6 @@ public class Rules {
     }
 
     public Rule findRule (Node node) {
-        // TODO blank rule
         for (Rule rule : rules) {
             if (rule.getFilter().test(node)) {
                 return rule;
