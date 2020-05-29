@@ -34,8 +34,7 @@ class CopyDownTest {
         Type listType = new TypeToken<List<TestCase>>() {}.getType();
 
         List<TestCase> testCases = new Gson().fromJson(commandsAsJson, listType);
-        int i = 40;
-        return testCases/*.subList(i, i + 3)*/.stream().filter(t -> t.options == null).map(tc -> Arguments.of(tc.name, tc));
+        int i = 115;
+        return testCases/*.subList(i, i + 1)*/.stream().filter(t -> t.options == null).map(tc -> Arguments.of(tc.name, tc));
     }
-
 }

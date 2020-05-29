@@ -36,7 +36,7 @@ public class CopyDown {
             new Escape("`", "\\\\`"),
             new Escape("^~~~", "\\\\~~~"),
             new Escape("\\[", "\\\\["),
-            new Escape("\\)", "\\\\)"),
+            new Escape("\\]", "\\\\]"),
             new Escape("^>", "\\\\>"),
             new Escape("_", "\\\\_"),
             new Escape("^(\\d+)\\. ", "$1\\\\. ")

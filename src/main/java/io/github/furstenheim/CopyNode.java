@@ -58,10 +58,16 @@ public class CopyNode {
     }
 
     public static boolean isBlank (Node element) {
+        String textContent;
+        if (element instanceof Element) {
+            textContent = ((Element)element).wholeText();
+        } else {
+            textContent = element.outerHtml();
+        }
         return !isVoid(element) &&
                !isMeaningfulWhenBlank(element) &&
                // TODO check text is the same as textContent in browser
-               Pattern.compile("/^\\s*$/i").matcher(element.outerHtml()).find() &&
+               Pattern.compile("(?i)^\\s*$").matcher(textContent).find() &&
                !hasVoidNodesSet(element) &&
                !hasMeaningfulWhenBlankNodesSet(element);
     }
