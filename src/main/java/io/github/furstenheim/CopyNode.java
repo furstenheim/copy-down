@@ -69,9 +69,15 @@ public class CopyNode {
         String leading = "";
         String trailing = "";
         if (!isBlock(element)) {
+            String textContent;
+            if (element instanceof Element) {
+                textContent = ((Element)element).wholeText();
+            } else {
+                textContent = element.outerHtml();
+            }
             // TODO original uses textContent
-            boolean hasLeading = Pattern.compile("^\\s").matcher(element.outerHtml()).find();
-            boolean hasTrailing = Pattern.compile("\\s$").matcher(element.outerHtml()).find();
+            boolean hasLeading = Pattern.compile("^\\s").matcher(textContent).find();
+            boolean hasTrailing = Pattern.compile("\\s$").matcher(textContent).find();
             // TODO maybe make node property and avoid recomputing
             boolean blankWithSpaces = isBlank(element) && hasLeading && hasTrailing;
             if (hasLeading && !isLeftFlankedByWhitespaces()) {
