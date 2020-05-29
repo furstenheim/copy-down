@@ -71,9 +71,8 @@ public class Rules {
                 && element.childNode(0).nodeName().equals("code");
         }, (content, element) -> {
             // TODO check textContent
-            return "\n\n    " + element.childNode(0).outerHtml().replaceAll("/\n/", "\n    ");
+            return "\n\n    " + ((Element)element.childNode(0)).text().replaceAll("\n", "\n    ");
         }));
-
         // TODO fencedCodeBlock
 
         addRule("horizontalRule", new Rule("hr", (content, element) -> {

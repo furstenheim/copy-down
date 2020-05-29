@@ -255,13 +255,13 @@
     "name": "pre/code block",
     "options": null,
     "input": "<pre><code>def code_block\n  # 42 &lt; 9001\n  \"Hello world!\"\nend</code></pre>",
-    "output": "    def code_block\n      # 42 &lt; 9001\n      \"Hello world!\"\n    end"
+    "output": "    def code_block\n      # 42 < 9001\n      \"Hello world!\"\n    end"
   },
   {
     "name": "multiple pre/code blocks",
     "options": null,
     "input": "<pre><code>def first_code_block\n  # 42 &lt; 9001\n  \"Hello world!\"\nend</code></pre>\n\n        <p>next:</p>\n\n        <pre><code>def second_code_block\n  # 42 &lt; 9001\n  \"Hello world!\"\nend</code></pre>",
-    "output": "    def first_code_block\n      # 42 &lt; 9001\n      \"Hello world!\"\n    end\n\nnext:\n\n    def second_code_block\n      # 42 &lt; 9001\n      \"Hello world!\"\n    end"
+    "output": "    def first_code_block\n      # 42 < 9001\n      \"Hello world!\"\n    end\n\nnext:\n\n    def second_code_block\n      # 42 < 9001\n      \"Hello world!\"\n    end"
   },
   {
     "name": "pre/code block with multiple new lines",
@@ -363,25 +363,25 @@
     "name": "ul with blockquote",
     "options": null,
     "input": "\n        <ul>\n            <li>\n                <p>A list item with a blockquote:</p>\n                <blockquote>\n                    <p>This is a blockquote inside a list item.</p>\n                </blockquote>\n            </li>\n        </ul>\n    ",
-    "output": "*   A list item with a blockquote:\n    \n    &gt; This is a blockquote inside a list item."
+    "output": "*   A list item with a blockquote:\n    \n    > This is a blockquote inside a list item."
   },
   {
     "name": "blockquote",
     "options": null,
     "input": "\n        <blockquote>\n            <p>This is a paragraph within a blockquote.</p>\n            <p>This is another paragraph within a blockquote.</p>\n        </blockquote>\n    ",
-    "output": "&gt; This is a paragraph within a blockquote.\n&gt; \n&gt; This is another paragraph within a blockquote."
+    "output": "> This is a paragraph within a blockquote.\n> \n> This is another paragraph within a blockquote."
   },
   {
     "name": "nested blockquotes",
     "options": null,
     "input": "\n        <blockquote>\n            <p>This is the first level of quoting.</p>\n            <blockquote>\n                <p>This is a paragraph in a nested blockquote.</p>\n            </blockquote>\n            <p>Back to the first level.</p>\n        </blockquote>\n    ",
-    "output": "&gt; This is the first level of quoting.\n&gt; \n&gt; &gt; This is a paragraph in a nested blockquote.\n&gt; \n&gt; Back to the first level."
+    "output": "> This is the first level of quoting.\n> \n> > This is a paragraph in a nested blockquote.\n> \n> Back to the first level."
   },
   {
     "name": "html in blockquote",
     "options": null,
     "input": "\n        <blockquote>\n            <h2>This is a header.</h2>\n            <ol>\n                <li>This is the first list item.</li>\n                <li>This is the second list item.</li>\n            </ol>\n            <p>A code block:</p>\n            <pre><code>return 1 &lt; 2 ? shell_exec('echo $input | $markdown_script') : 0;</code></pre>\n        </blockquote>\n    ",
-    "output": "&gt; This is a header.\n&gt; -----------------\n&gt; \n&gt; 1.  This is the first list item.\n&gt; 2.  This is the second list item.\n&gt; \n&gt; A code block:\n&gt; \n&gt;     return 1 &lt; 2 ? shell_exec('echo $input | $markdown_script') : 0;"
+    "output": "> This is a header.\n> -----------------\n> \n> 1.  This is the first list item.\n> 2.  This is the second list item.\n> \n> A code block:\n> \n>     return 1 < 2 ? shell_exec('echo $input | $markdown_script') : 0;"
   },
   {
     "name": "multiple divs",
@@ -609,19 +609,19 @@
     "name": "escaping > as blockquote",
     "options": null,
     "input": "&gt; Blockquote in markdown",
-    "output": "\\&gt; Blockquote in markdown"
+    "output": "\\> Blockquote in markdown"
   },
   {
     "name": "escaping > as blockquote without space",
     "options": null,
     "input": "&gt;Blockquote in markdown",
-    "output": "\\&gt;Blockquote in markdown"
+    "output": "\\>Blockquote in markdown"
   },
   {
     "name": "not escaping > outside of a blockquote",
     "options": null,
     "input": "42 &gt; 1",
-    "output": "42 &gt; 1"
+    "output": "42 > 1"
   },
   {
     "name": "escaping code",
