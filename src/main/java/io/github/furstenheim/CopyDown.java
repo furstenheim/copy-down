@@ -179,9 +179,44 @@ public class CopyDown {
                        && element.childNode(0).nodeName().equals("code");
             }, (content, element) -> {
                 // TODO check textContent
-                return "\n\n    " + ((Element)element.childNode(0)).text().replaceAll("\n", "\n    ");
+                return "\n\n    " + ((Element)element.childNode(0)).wholeText().replaceAll("\n", "\n    ");
             }));
-            // TODO fencedCodeBlock
+            addRule("fencedCodeBock", new Rule((element) -> {
+                return options.codeBlockStyle == CodeBlockStyle.FENCED
+                       && element.nodeName().equals("pre")
+                       && element.childNodeSize() > 0
+                       && element.childNode(0).nodeName().equals("code");
+            }, (content, element) -> {
+                String childClass = element.childNode(0).attr("class");
+                if (childClass == null) {
+                    childClass = "";
+                }
+                Matcher languageMatcher = Pattern.compile("language-(\\S+)").matcher(childClass);
+                String language = "";
+                if (languageMatcher.find()) {
+                    language = languageMatcher.group(1);
+                }
+
+                String code;
+                if (element.childNode(0) instanceof Element) {
+                    code = ((Element)element.childNode(0)).wholeText();
+                } else {
+                    code = element.childNode(0).outerHtml();
+                }
+
+                String fenceChar = options.fence.substring(0, 1);
+                int fenceSize = 3;
+                Matcher fenceMatcher = Pattern.compile("(?m)^(" + fenceChar + "{3,})").matcher(content);
+                while (fenceMatcher.find()) {
+                    String group = fenceMatcher.group(1);
+                    fenceSize = Math.max(group.length() + 1, fenceSize);
+                }
+                String fence = String.join("", Collections.nCopies(fenceSize, fenceChar));
+                return (
+                        "\n\n" + fence + language + "\n" + code.replaceAll("\n$", "")
+                         + "\n" + fence + "\n\n"
+                        );
+            }));
 
             addRule("horizontalRule", new Rule("hr", (content, element) -> {
                 return "\n\n" + options.hr + "\n\n";

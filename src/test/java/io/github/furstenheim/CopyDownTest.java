@@ -56,6 +56,9 @@ class CopyDownTest {
                     optionsBuilder.withFence(options.get("fence").getAsString());
                 }
             }
+            if (options.has("bulletListMarker")) {
+                optionsBuilder.withBulletListMaker(options.get("bulletListMarker").getAsString());
+            }
             copyDown = new CopyDown(optionsBuilder.build());
         }
         String markdown = copyDown.convert(testCase.input);
@@ -71,7 +74,7 @@ class CopyDownTest {
         Type listType = new TypeToken<List<TestCase>>() {}.getType();
 
         List<TestCase> testCases = new Gson().fromJson(commandsAsJson, listType);
-        int i = 4;
+        int i = 9;
         return testCases.stream().filter(t -> !t.options.isJsonNull()).collect(
                 Collectors.toList())/*.subList(i, i + 1)*/.stream().map(tc -> Arguments.of(tc.name, tc));
     }
