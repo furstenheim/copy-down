@@ -7,10 +7,17 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class Rule {
     private Predicate<Node> filter;
     private BiFunction<String, Node, String> replacement;
+
+    public Supplier<String> getAppend() {
+        return append;
+    }
+
+    private Supplier<String> append = null;
     public String name;
 
     public Rule (String filter, BiFunction<String, Node, String> replacement) {
@@ -26,6 +33,11 @@ public class Rule {
     public Rule(Predicate<Node> filter, BiFunction<String, Node, String> replacement) {
         this.filter = filter;
         this.replacement = replacement;
+    }
+    public Rule(Predicate<Node> filter, BiFunction<String, Node, String> replacement, Supplier<String> append) {
+        this.filter = filter;
+        this.replacement = replacement;
+        this.append = append;
     }
 
     public Predicate<Node> getFilter() {

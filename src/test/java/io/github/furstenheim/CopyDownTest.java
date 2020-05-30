@@ -14,6 +14,7 @@ import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -36,7 +37,7 @@ class CopyDownTest {
                 optionsBuilder.withHr(options.get("hr").getAsString());
             }
             if (options.has("br")) {
-                optionsBuilder.withHr(options.get("br").getAsString());
+                optionsBuilder.withBr(options.get("br").getAsString());
             }
             if (options.has("linkStyle") && options.get("linkStyle").getAsString().equals("referenced")) {
                 optionsBuilder.withLinkStyle(LinkStyle.REFERENCED);
@@ -70,7 +71,8 @@ class CopyDownTest {
         Type listType = new TypeToken<List<TestCase>>() {}.getType();
 
         List<TestCase> testCases = new Gson().fromJson(commandsAsJson, listType);
-        int i = 115;
-        return testCases/*.subList(i, i + 1)*/.stream().filter(t -> !t.options.isJsonNull()).map(tc -> Arguments.of(tc.name, tc));
+        int i = 4;
+        return testCases.stream().filter(t -> !t.options.isJsonNull()).collect(
+                Collectors.toList())/*.subList(i, i + 1)*/.stream().map(tc -> Arguments.of(tc.name, tc));
     }
 }
