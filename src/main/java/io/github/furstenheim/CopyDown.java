@@ -11,23 +11,26 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Main class of the package
+ */
 public class CopyDown {
-    Rules rules;
-    Options options;
-    private List<String> references = null;
-    public CopyDown (Options options) {
-        this.options = options;
-        setUp();
-    }
     public CopyDown () {
         this.options = OptionsBuilder.anOptions().build();
         setUp();
     }
 
+    public CopyDown (Options options) {
+        this.options = options;
+        setUp();
+    }
+
     /**
-     * Note not thread safe if reference style is used
-     * @param input
-     * @return
+     * Accepts a HTML string and converts it to markdown
+     *
+     * Note, if LinkStyle is chosen to be REFERENCED the method is not thread safe.
+     * @param input html to be converted
+     * @return markdown text
      */
     public String convert (String input) {
         references = new ArrayList<>();
@@ -35,10 +38,15 @@ public class CopyDown {
         String result = process(copyRootNode);
         return postProcess(result);
     }
+
+    private Rules rules;
+    private final Options options;
+    private List<String> references = null;
+
     private void setUp () {
-        rules = new Rules(options);
+        rules = new Rules();
     }
-    private class Escape {
+    private static class Escape {
         String pattern;
         String replace;
 
@@ -47,7 +55,7 @@ public class CopyDown {
             this.replace = replace;
         }
     }
-    List<Escape> escapes = Arrays.asList(
+    private final List<Escape> escapes = Arrays.asList(
             new Escape("\\\\", "\\\\\\\\"),
             new Escape("\\*", "\\\\*"),
             new Escape("^-", "\\\\-"),
@@ -118,12 +126,10 @@ public class CopyDown {
     }
 
     class Rules {
-        private final Options options;
         private List<Rule> rules;
 
-        public Rules (Options options) {
+        public Rules () {
             this.rules = new ArrayList<>();
-            this.options = options;
 
             addRule("blankReplacement", new Rule((element) -> CopyNode.isBlank(element), (content, element) ->
                     CopyNode.isBlock(element) ? "\n\n" : ""));
@@ -343,12 +349,11 @@ public class CopyDown {
         }
 
         private void addRule (String name, Rule rule) {
-            rule.name = name;
+            rule.setName(name);
             rules.add(rule);
         }
         private String cleanAttribute (String attribute) {
             return attribute.replaceAll("(\n+\\s*)+", "\n");
         }
-
     }
 }

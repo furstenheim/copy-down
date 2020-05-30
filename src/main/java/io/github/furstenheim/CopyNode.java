@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-public class CopyNode {
+class CopyNode {
     private static final String[] VOID_ELEMENTS = {
             "area", "base", "br", "col", "command", "embed", "hr", "img", "input",
             "keygen", "link", "meta", "param", "source", "track", "wbr"
@@ -36,7 +36,7 @@ public class CopyNode {
     Node element;
     CopyNode parent;
 
-    public CopyNode (String input) {
+    CopyNode (String input) {
         Document document = Jsoup.parse(
                 // DOM parsers arrange elements in the <head> and <body>.
                 // Wrapping in a custom element ensures elements are reliably arranged in
@@ -47,17 +47,17 @@ public class CopyNode {
         element = root;
     }
 
-    public CopyNode (Node node, CopyNode parent) {
+    CopyNode (Node node, CopyNode parent) {
         element = node;
         this.parent = parent;
     }
 
-    public boolean isCode () {
+    boolean isCode () {
         // TODO cache in property to avoid escalating to root
         return element.nodeName().equals("code") || (parent != null && parent.isCode());
     }
 
-    public static boolean isBlank (Node element) {
+    static boolean isBlank (Node element) {
         String textContent;
         if (element instanceof Element) {
             textContent = ((Element)element).wholeText();
@@ -71,7 +71,7 @@ public class CopyNode {
                !hasVoidNodesSet(element) &&
                !hasMeaningfulWhenBlankNodesSet(element);
     }
-    public FlankingWhiteSpaces flankingWhitespace () {
+    FlankingWhiteSpaces flankingWhitespace () {
         String leading = "";
         String trailing = "";
         if (!isBlock(element)) {
@@ -130,7 +130,7 @@ public class CopyNode {
         }
         return false;
     }
-    public static boolean isVoid (Node element) {
+    static boolean isVoid (Node element) {
         return getVoidNodesSet().contains(element.nodeName());
     }
     private static Set<String> getVoidNodesSet() {
@@ -176,7 +176,7 @@ public class CopyNode {
         }
         return false;
     }
-    public static boolean isBlock (Node element) {
+    static boolean isBlock (Node element) {
         return getBlockNodesSet().contains(element.nodeName());
     }
     private static Set<String> getBlockNodesSet() {
@@ -187,19 +187,19 @@ public class CopyNode {
         return BLOCK_ELEMENTS_SET;
     }
 
-    public static class FlankingWhiteSpaces {
-        public String getLeading() {
+    static class FlankingWhiteSpaces {
+        String getLeading() {
             return leading;
         }
 
-        public String getTrailing() {
+        String getTrailing() {
             return trailing;
         }
 
         private final String leading;
         private final String trailing;
 
-        public FlankingWhiteSpaces(String leading, String trailing) {
+        FlankingWhiteSpaces(String leading, String trailing) {
             this.leading = leading;
             this.trailing = trailing;
         }

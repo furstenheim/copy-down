@@ -9,7 +9,7 @@ import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public class Rule {
+class Rule {
     private Predicate<Node> filter;
     private BiFunction<String, Node, String> replacement;
 
@@ -18,33 +18,38 @@ public class Rule {
     }
 
     private Supplier<String> append = null;
-    public String name;
 
-    public Rule (String filter, BiFunction<String, Node, String> replacement) {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    private String name;
+
+    Rule (String filter, BiFunction<String, Node, String> replacement) {
         this.filter = (el) -> el.nodeName().toLowerCase() == filter;
         this.replacement = replacement;
     }
 
-    public Rule (String[] filters, BiFunction<String, Node, String> replacement) {
+    Rule (String[] filters, BiFunction<String, Node, String> replacement) {
         Set<String> availableFilters = new HashSet<String>(Arrays.asList(filters));
         filter = (element -> availableFilters.contains(element.nodeName()));
         this.replacement = replacement;
     }
-    public Rule(Predicate<Node> filter, BiFunction<String, Node, String> replacement) {
+    Rule(Predicate<Node> filter, BiFunction<String, Node, String> replacement) {
         this.filter = filter;
         this.replacement = replacement;
     }
-    public Rule(Predicate<Node> filter, BiFunction<String, Node, String> replacement, Supplier<String> append) {
+    Rule(Predicate<Node> filter, BiFunction<String, Node, String> replacement, Supplier<String> append) {
         this.filter = filter;
         this.replacement = replacement;
         this.append = append;
     }
 
-    public Predicate<Node> getFilter() {
+    Predicate<Node> getFilter() {
         return filter;
     }
 
-    public BiFunction<String, Node, String> getReplacement() {
+    BiFunction<String, Node, String> getReplacement() {
         return replacement;
     }
 }

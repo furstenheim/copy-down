@@ -32,12 +32,12 @@ import java.util.regex.Pattern;
  * THE SOFTWARE.
  */
 
-public class WhitespaceCollapser {
+class WhitespaceCollapser {
     /**
-     * Remove extraneous whitespace from the given element
+     * Remove extraneous whitespace from the given element. Modifies the node in place
      * @param element
      */
-    public void collapse (Node element) {
+    void collapse (Node element) {
         if (element.childNodeSize() == 0 || isPre(element)) {
             return;
         }

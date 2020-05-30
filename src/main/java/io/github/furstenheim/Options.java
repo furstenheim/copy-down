@@ -1,16 +1,16 @@
 package io.github.furstenheim;
 
 public class Options {
-    public final String br;
-    public final String hr;
-    public final String emDelimiter;
-    public final String strongDelimiter;
-    public final HeadingStyle headingStyle;
-    public final String bulletListMaker;
-    public final CodeBlockStyle codeBlockStyle;
-    public final LinkStyle linkStyle;
-    public final LinkReferenceStyle linkReferenceStyle;
-    public final String fence;
+    final String br;
+    final String hr;
+    final String emDelimiter;
+    final String strongDelimiter;
+    final HeadingStyle headingStyle;
+    final String bulletListMaker;
+    final CodeBlockStyle codeBlockStyle;
+    final LinkStyle linkStyle;
+    final LinkReferenceStyle linkReferenceStyle;
+    final String fence;
 
     public Options(String br, String hr, String emDelimiter, String strongDelimiter,
             HeadingStyle headingStyle, String bulletListMaker, CodeBlockStyle codeBlockStyle,
