@@ -212,8 +212,11 @@ public class CopyDown {
                     fenceSize = Math.max(group.length() + 1, fenceSize);
                 }
                 String fence = String.join("", Collections.nCopies(fenceSize, fenceChar));
+                if (code.length() > 0 && code.charAt(code.length() - 1) == '\n') {
+                    code = code.substring(0, code.length() - 1);
+                }
                 return (
-                        "\n\n" + fence + language + "\n" + code.replaceAll("\n$", "")
+                        "\n\n" + fence + language + "\n" + code
                          + "\n" + fence + "\n\n"
                         );
             }));

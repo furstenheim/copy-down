@@ -14,7 +14,6 @@ import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -74,8 +73,6 @@ class CopyDownTest {
         Type listType = new TypeToken<List<TestCase>>() {}.getType();
 
         List<TestCase> testCases = new Gson().fromJson(commandsAsJson, listType);
-        int i = 9;
-        return testCases.stream().filter(t -> !t.options.isJsonNull()).collect(
-                Collectors.toList())/*.subList(i, i + 1)*/.stream().map(tc -> Arguments.of(tc.name, tc));
+        return testCases.stream().map(tc -> Arguments.of(tc.name, tc));
     }
 }
