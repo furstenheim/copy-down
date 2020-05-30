@@ -10,7 +10,7 @@ buildscript {
 
 plugins {
     id 'java'
-//     id 'com.vanniktech.maven.publish' version "0.11.1"
+    id 'com.vanniktech.maven.publish' version "0.11.1"
     id 'signing'
 }
 
