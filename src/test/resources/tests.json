@@ -97,7 +97,9 @@
   },
   {
     "name": "h1 as atx",
-    "options": "{\"headingStyle\":\"atx\"}",
+    "options": {
+      "headingStyle": "atx"
+    },
     "input": "<h1>Level One Heading with ATX</h1>",
     "output": "# Level One Heading with ATX"
   },
@@ -109,7 +111,9 @@
   },
   {
     "name": "h2 as atx",
-    "options": "{\"headingStyle\":\"atx\"}",
+    "options": {
+      "headingStyle": "atx"
+    },
     "input": "<h2>Level Two Heading with ATX</h2>",
     "output": "## Level Two Heading with ATX"
   },
@@ -145,7 +149,9 @@
   },
   {
     "name": "hr with option",
-    "options": "{\"hr\": \"- - -\"}",
+    "options": {
+      "hr": "- - -"
+    },
     "input": "<hr>",
     "output": "- - -"
   },
@@ -157,7 +163,9 @@
   },
   {
     "name": "br with visible line-ending",
-    "options": "{\"br\": \"\\\\\"}",
+    "options": {
+      "br": "\\"
+    },
     "input": "More<br>after the break",
     "output": "More\\\nafter the break"
   },
@@ -235,19 +243,27 @@
   },
   {
     "name": "a reference",
-    "options": "{\"linkStyle\": \"referenced\"}",
+    "options": {
+      "linkStyle": "referenced"
+    },
     "input": "<a href=\"http://example.com\">Reference link</a>",
     "output": "[Reference link][1]\n\n[1]: http://example.com"
   },
   {
     "name": "a reference with collapsed style",
-    "options": "{\"linkStyle\": \"referenced\", \"linkReferenceStyle\": \"collapsed\"}",
+    "options": {
+      "linkStyle": "referenced",
+      "linkReferenceStyle": "collapsed"
+    },
     "input": "<a href=\"http://example.com\">Reference link with collapsed style</a>",
     "output": "[Reference link with collapsed style][]\n\n[Reference link with collapsed style]: http://example.com"
   },
   {
     "name": "a reference with shortcut style",
-    "options": "{\"linkStyle\": \"referenced\", \"linkReferenceStyle\": \"shortcut\"}",
+    "options": {
+      "linkStyle": "referenced",
+      "linkReferenceStyle": "shortcut"
+    },
     "input": "<a href=\"http://example.com\">Reference link with shortcut style</a>",
     "output": "[Reference link with shortcut style]\n\n[Reference link with shortcut style]: http://example.com"
   },
@@ -271,13 +287,18 @@
   },
   {
     "name": "fenced pre/code block",
-    "options": "{\"codeBlockStyle\": \"fenced\"}",
+    "options": {
+      "codeBlockStyle": "fenced"
+    },
     "input": "\n        <pre><code>def a_fenced_code block; end</code></pre>\n    ",
     "output": "```\ndef a_fenced_code block; end\n```"
   },
   {
     "name": "pre/code block fenced with ~",
-    "options": "{\"codeBlockStyle\": \"fenced\", \"fence\": \"~~~\"}",
+    "options": {
+      "codeBlockStyle": "fenced",
+      "fence": "~~~"
+    },
     "input": "\n        <pre><code>def a_fenced_code block; end</code></pre>\n    ",
     "output": "~~~\ndef a_fenced_code block; end\n~~~"
   },
@@ -295,7 +316,9 @@
   },
   {
     "name": "fenced pre/code block with language",
-    "options": "{\"codeBlockStyle\": \"fenced\"}",
+    "options": {
+      "codeBlockStyle": "fenced"
+    },
     "input": "\n        <pre><code class=\"language-ruby\">def a_fenced_code block; end</code></pre>\n    ",
     "output": "```ruby\ndef a_fenced_code block; end\n```"
   },
@@ -331,7 +354,9 @@
   },
   {
     "name": "ul with custom bullet",
-    "options": "{\"bulletListMarker\": \"-\"}",
+    "options": {
+      "bulletListMarker": "-"
+    },
     "input": "\n        <ul>\n            <li>Unordered list item 1</li>\n            <li>Unordered list item 2</li>\n            <li>Unordered list item 3</li>\n        </ul>\n    ",
     "output": "-   Unordered list item 1\n-   Unordered list item 2\n-   Unordered list item 3"
   },
@@ -703,25 +728,37 @@
   },
   {
     "name": "triple tildes inside code",
-    "options": "{\"codeBlockStyle\": \"fenced\", \"fence\": \"~~~\"}",
+    "options": {
+      "codeBlockStyle": "fenced",
+      "fence": "~~~"
+    },
     "input": "\n<pre><code>~~~\nCode\n~~~\n</code></pre>\n    ",
     "output": "~~~~\n~~~\nCode\n~~~\n~~~~"
   },
   {
     "name": "triple ticks inside code",
-    "options": "{\"codeBlockStyle\": \"fenced\", \"fence\": \"```\"}",
+    "options": {
+      "codeBlockStyle": "fenced",
+      "fence": "```"
+    },
     "input": "\n<pre><code>```\nCode\n```\n</code></pre>\n    ",
     "output": "````\n```\nCode\n```\n````"
   },
   {
     "name": "four ticks inside code",
-    "options": "{\"codeBlockStyle\": \"fenced\", \"fence\": \"```\"}",
+    "options": {
+      "codeBlockStyle": "fenced",
+      "fence": "```"
+    },
     "input": "\n<pre><code>````\nCode\n````\n</code></pre>\n    ",
     "output": "`````\n````\nCode\n````\n`````"
   },
   {
     "name": "empty line in start/end of code block",
-    "options": "{\"codeBlockStyle\": \"fenced\", \"fence\": \"```\"}",
+    "options": {
+      "codeBlockStyle": "fenced",
+      "fence": "```"
+    },
     "input": "\n<pre><code>\nCode\n\n</code></pre>\n    ",
     "output": "```\n\nCode\n\n```"
   }

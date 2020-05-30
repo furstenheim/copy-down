@@ -2,6 +2,7 @@ package io.github.furstenheim;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,7 +23,42 @@ class CopyDownTest {
     @ParameterizedTest
     @MethodSource("testCases")
     public void mainTest(String name, TestCase testCase) throws IOException {
-        String markdown = new CopyDown().convert(testCase.input);
+        CopyDown copyDown;
+        if (testCase.options.isJsonNull()) {
+            copyDown = new CopyDown();
+        } else {
+            OptionsBuilder optionsBuilder = OptionsBuilder.anOptions();
+            JsonObject options = testCase.options.getAsJsonObject();
+            if (options.has("headingStyle") && options.get("headingStyle").getAsString().equals("atx")) {
+                optionsBuilder.withHeadingStyle(HeadingStyle.ATX);
+            }
+            if (options.has("hr")) {
+                optionsBuilder.withHr(options.get("hr").getAsString());
+            }
+            if (options.has("br")) {
+                optionsBuilder.withHr(options.get("br").getAsString());
+            }
+            if (options.has("linkStyle") && options.get("linkStyle").getAsString().equals("referenced")) {
+                optionsBuilder.withLinkStyle(LinkStyle.REFERENCED);
+                if (options.has("linkReferenceStyle")) {
+                    String linkReferenceStyle = options.get("linkReferenceStyle").getAsString();
+                    if (linkReferenceStyle.equals("collapsed")) {
+                        optionsBuilder.withLinkReferenceStyle(LinkReferenceStyle.COLLAPSED);
+                    } else if (linkReferenceStyle.equals("shortcut")) {
+                        optionsBuilder.withLinkReferenceStyle(LinkReferenceStyle.SHORTCUT);
+                    }
+                }
+            }
+            if (options.has("codeBlockStyle") && options.get("codeBlockStyle").getAsString().equals("fenced")) {
+                optionsBuilder.withCodeBlockStyle(CodeBlockStyle.FENCED);
+                if (options.has("fence")) {
+                    optionsBuilder.withFence(options.get("fence").getAsString());
+                }
+            }
+            copyDown = new CopyDown(optionsBuilder.build());
+        }
+        String markdown = copyDown.convert(testCase.input);
+
         assertThat(markdown, equalTo(testCase.output));
 
     }
@@ -35,6 +71,6 @@ class CopyDownTest {
 
         List<TestCase> testCases = new Gson().fromJson(commandsAsJson, listType);
         int i = 115;
-        return testCases/*.subList(i, i + 1)*/.stream().filter(t -> t.options == null).map(tc -> Arguments.of(tc.name, tc));
+        return testCases/*.subList(i, i + 1)*/.stream().filter(t -> !t.options.isJsonNull()).map(tc -> Arguments.of(tc.name, tc));
     }
 }

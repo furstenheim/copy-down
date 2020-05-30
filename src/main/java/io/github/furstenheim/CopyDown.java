@@ -11,9 +11,20 @@ import java.util.regex.Pattern;
 
 public class CopyDown {
     Rules rules;
+    Options options;
+    public CopyDown (Options options) {
+        this.options = options;
+        setUp();
+    }
+    public CopyDown () {
+        this.options = OptionsBuilder.anOptions().build();
+        setUp();
+    }
+    private void setUp () {
+        rules = new Rules(options);
+    }
     public String convert (String input) {
         CopyNode copyRootNode = new CopyNode(input);
-        rules = new Rules(new Options.OptionsBuilder().build());
         String result = process(copyRootNode);
         return postProcess(result);
     }
@@ -51,7 +62,6 @@ public class CopyDown {
         for (Node child : node.element.childNodes()) {
             CopyNode copyNodeChild = new CopyNode(child, node);
             String replacement = "";
-            // org.jsoup.nodes.TextNode cannot be cast to org.jsoup.nodes.Node
             if (NodeUtils.isNodeType3(child)) {
                 // TODO it should be child.nodeValue
                 replacement = copyNodeChild.isCode() ? ((TextNode)child).text() : escape(((TextNode)child).text());
