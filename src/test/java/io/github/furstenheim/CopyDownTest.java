@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -74,5 +75,16 @@ class CopyDownTest {
 
         List<TestCase> testCases = new Gson().fromJson(commandsAsJson, listType);
         return testCases.stream().map(tc -> Arguments.of(tc.name, tc));
+    }
+
+    @Test
+    public void convertRealWebsite() throws IOException{
+        String html = new String(Files.readAllBytes(Paths.get(
+                "src/test/resources/gastronomia_y_cia_1.html")));
+        String convert = new CopyDown().convert(html);
+
+        String expected = new String(Files.readAllBytes(Paths.get(
+                "src/test/resources/gastronomia_result.md")));
+        assertThat(convert + "\n", equalTo(expected));
     }
 }
