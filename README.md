@@ -66,3 +66,5 @@ public class Main {
 
 ### Acknowledgment
 This library is a port to Java of the wonderful library [Turndown.js](https://github.com/domchristie/turndown). This library passes the same test suite as the original library to ensure same behavior.
+
+This project is supported by Intellij open source license
