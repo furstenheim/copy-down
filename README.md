@@ -2,12 +2,22 @@
 Convert HTML into Markdown with Java.
 
 ### Installation
-In your gradle file:
-
-```groovy
+Gradle:
+```gradle
 dependencies {
-        compile 'io.github.furstenheim:copy_down:1.0'
+    compile 'io.github.furstenheim:copy_down:1.0'
 }
+```
+
+Maven:
+```xml
+<dependencies>
+    <dependency>
+        <groupId>io.github.furstenheim</groupId>
+        <artifactId>copy_down</artifactId>
+        <version>1.0</version>
+    </dependency>
+</dependencies>
 ```
 
 ### Usage
