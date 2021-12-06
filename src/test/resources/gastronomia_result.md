@@ -59,4 +59,4 @@ Acabado y presentación
 
 Para servir una ración, poner a hervir el agua de algas, una vez que hierva añadir un nabo (las tres piezas) y cocer tres minutos. En el centro de un plato hondo poner la medio esfera de nabo con lo plano para abajo, apoyando por delante la tapa y el nabo vacío por detrás, viéndose el hueco, coger el [biberón](https://gastronomiaycia.republica.com/2008/10/07/biberones-de-cocina/) del escabeche y servir sobre la semi esfera de nabo y en el agujero del nabo vacío.
 
-Con la cuchara de agujeros coger seis bolas de caviar de pimienta y repartir sobre del nabo y el escabeche, terminando con tres hojas del germinado de rábano (poner un poco de escabeche encima de cada hoja) y una vuelta de molinillo de pimienta.
+Con la cuchara de agujeros coger seis bolas de caviar de pimienta y repartir sobre del nabo y el escabeche, terminando con tres hojas del germinado de rábano (poner un poco de escabeche encima de cada hoja) y <code>una <sup>vuelta</sup></code> de <sub>molinillo</sub> de <sup>pimienta</sup>.

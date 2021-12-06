@@ -290,6 +290,18 @@ public class CopyDown {
                 }
                 return options.strongDelimiter + content + options.strongDelimiter;
             }));
+            addRule("sup", new Rule(new String[]{"sup"}, (content, element) -> {
+                if (content.trim().length() == 0) {
+                    return "";
+                }
+                return options.supDelimiter + content + options.supDelimiter.replace("<", "</");
+            }));
+            addRule("sub", new Rule(new String[]{"sub"}, (content, element) -> {
+                if (content.trim().length() == 0) {
+                    return "";
+                }
+                return options.subDelimiter + content + options.subDelimiter.replace("<", "</");
+            }));
             addRule("code", new Rule((element) -> {
                 boolean hasSiblings = element.previousSibling() != null || element.nextSibling() != null;
                 boolean isCodeBlock = element.parentNode().nodeName().equals("pre") && !hasSiblings;
@@ -298,7 +310,7 @@ public class CopyDown {
                 if (content.trim().length() == 0) {
                     return "";
                 }
-                String delimiter = "`";
+                String delimiter = content.contains("<sup") || content.contains("<sub") ? "<code>" : "`";
                 String leadingSpace = "";
                 String trailingSpace = "";
                 Pattern pattern = Pattern.compile("(?m)(`)+");
@@ -321,7 +333,7 @@ public class CopyDown {
                     }
                     delimiter = String.join("", Collections.nCopies(counter, "`"));
                 }
-                return delimiter + leadingSpace + content + trailingSpace + delimiter;
+                return delimiter + leadingSpace + content + trailingSpace + delimiter.replace("<", "</");
             }));
             addRule("img", new Rule("img", (content, element) -> {
                 String alt = cleanAttribute(element.attr("alt"));

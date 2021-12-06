@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -80,11 +81,11 @@ class CopyDownTest {
     @Test
     public void convertRealWebsite() throws IOException{
         String html = new String(Files.readAllBytes(Paths.get(
-                "src/test/resources/gastronomia_y_cia_1.html")));
+                "src/test/resources/gastronomia_y_cia_1.html")), UTF_8);
         String convert = new CopyDown().convert(html);
 
         String expected = new String(Files.readAllBytes(Paths.get(
-                "src/test/resources/gastronomia_result.md")));
+                "src/test/resources/gastronomia_result.md")), UTF_8);
         assertThat(convert + "\n", equalTo(expected));
     }
 }

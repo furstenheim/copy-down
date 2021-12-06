@@ -5,6 +5,8 @@ public final class OptionsBuilder {
     private String hr = "* * *";
     private String emDelimiter = "_";
     private String strongDelimiter = "**";
+    private String subDelimiter = "<sub>";
+    private String supDelimiter = "<sup>";
     private HeadingStyle headingStyle = HeadingStyle.SETEXT;
     private String bulletListMaker = "*";
     private CodeBlockStyle codeBlockStyle = CodeBlockStyle.INDENTED;
@@ -39,6 +41,16 @@ public final class OptionsBuilder {
         return this;
     }
 
+    public OptionsBuilder withSubDelimiter(String subDelimiter) {
+        this.subDelimiter = subDelimiter;
+        return this;
+    }
+
+    public OptionsBuilder withSupDelimiter(String supDelimiter) {
+        this.supDelimiter = supDelimiter;
+        return this;
+    }
+
     public OptionsBuilder withHeadingStyle(HeadingStyle headingStyle) {
         this.headingStyle = headingStyle;
         return this;
@@ -70,7 +82,7 @@ public final class OptionsBuilder {
     }
 
     public Options build() {
-        return new Options(br, hr, emDelimiter, strongDelimiter, headingStyle, bulletListMaker, codeBlockStyle,
+        return new Options(br, hr, emDelimiter, strongDelimiter, subDelimiter, supDelimiter, headingStyle, bulletListMaker, codeBlockStyle,
                            linkStyle, linkReferenceStyle, fence);
     }
 }

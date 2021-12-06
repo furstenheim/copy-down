@@ -5,6 +5,8 @@ public class Options {
     final String hr;
     final String emDelimiter;
     final String strongDelimiter;
+    final String subDelimiter;
+    final String supDelimiter;
     final HeadingStyle headingStyle;
     final String bulletListMaker;
     final CodeBlockStyle codeBlockStyle;
@@ -12,13 +14,15 @@ public class Options {
     final LinkReferenceStyle linkReferenceStyle;
     final String fence;
 
-    public Options(String br, String hr, String emDelimiter, String strongDelimiter,
-            HeadingStyle headingStyle, String bulletListMaker, CodeBlockStyle codeBlockStyle,
+    public Options(String br, String hr, String emDelimiter, String strongDelimiter, String subDelimiter,
+            String supDelimiter, HeadingStyle headingStyle, String bulletListMaker, CodeBlockStyle codeBlockStyle,
             LinkStyle linkStyle, LinkReferenceStyle linkReferenceStyle, String fence) {
         this.br = br;
         this.hr = hr;
         this.emDelimiter = emDelimiter;
         this.strongDelimiter = strongDelimiter;
+        this.subDelimiter = subDelimiter;
+        this.supDelimiter = supDelimiter;
         this.headingStyle = headingStyle;
         this.bulletListMaker = bulletListMaker;
         this.codeBlockStyle = codeBlockStyle;
