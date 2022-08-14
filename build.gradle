@@ -4,13 +4,13 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.8.0'
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.21.0'
     }
 }
 
 plugins {
     id 'java'
-    id 'com.vanniktech.maven.publish' version "0.11.1"
+    id 'com.vanniktech.maven.publish' version "0.21.0"
     id 'signing'
 }
 
@@ -36,14 +36,14 @@ test {
 }
 
 dependencies {
-    testCompile (
-            "org.junit.jupiter:junit-jupiter-api:5.0.0-M4",
-            "org.hamcrest:hamcrest-library:2.1",
-            "org.junit.jupiter:junit-jupiter-engine:5.5.2",
-            "org.junit.jupiter:junit-jupiter-params:5.4.2",
-            "com.shazam:shazamcrest:0.1",
-            'com.google.code.gson:gson:2.8.6'
+    testImplementation (
+            'org.junit.jupiter:junit-jupiter-api:5.9.0',
+            'org.hamcrest:hamcrest-library:2.2',
+            'org.junit.jupiter:junit-jupiter-engine:5.9.0',
+            'org.junit.jupiter:junit-jupiter-params:5.9.0',
+            'com.shazam:shazamcrest:0.11',
+            'com.google.code.gson:gson:2.9.0'
     )
-    compile 'org.jsoup:jsoup:1.13.1'
+    implementation 'org.jsoup:jsoup:1.15.2'
 }
 
