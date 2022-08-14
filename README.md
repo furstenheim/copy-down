@@ -5,7 +5,7 @@ Convert HTML into Markdown with Java.
 Gradle:
 ```gradle
 dependencies {
-    compile 'io.github.furstenheim:copy_down:1.0'
+    compile 'io.github.furstenheim:copy_down:1.1'
 }
 ```
 
@@ -15,7 +15,7 @@ Maven:
     <dependency>
         <groupId>io.github.furstenheim</groupId>
         <artifactId>copy_down</artifactId>
-        <version>1.0</version>
+        <version>1.1</version>
     </dependency>
 </dependencies>
 ```
