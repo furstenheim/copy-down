@@ -5,7 +5,7 @@ Convert HTML into Markdown with Java.
 Gradle:
 ```gradle
 dependencies {
-    compile 'io.github.furstenheim:copy_down:1.0'
+    compile 'io.github.furstenheim:copy_down:1.1'
 }
 ```
 
@@ -15,7 +15,7 @@ Maven:
     <dependency>
         <groupId>io.github.furstenheim</groupId>
         <artifactId>copy_down</artifactId>
-        <version>1.0</version>
+        <version>1.1</version>
     </dependency>
 </dependencies>
 ```
@@ -77,4 +77,3 @@ public class Main {
 ### Acknowledgment
 This library is a port to Java of the wonderful library [Turndown.js](https://github.com/domchristie/turndown). This library passes the same test suite as the original library to ensure same behavior.
 
-This project is supported by Intellij open source license
