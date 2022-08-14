@@ -4,10 +4,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -336,7 +333,61 @@ public class CopyDown {
                 }
                 return "![" + alt + "]" + "(" + src + titlePart + ")";
             }));
+            addRule("tableCell", new Rule(new String[]{"th", "td"}, this::cell));
+            addRule("tableRow", new Rule("tr", (content, element) -> {
+                StringBuilder borderCells = new StringBuilder();
+                var alignMap = Map.of("left", ":--", "right", "--:", "center", ":-:");
+
+                if (isHeadingRow(element)) {
+                    for (var i = 0; i < element.childNodes().size(); i++) {
+                        String border = "---";
+                        String align = (
+                                element.childNode(i).attr("align")
+                        ).toLowerCase();
+
+                        border = alignMap.getOrDefault(align, border);
+
+                        borderCells.append(cell(border, element.childNode(i)));
+                    }
+                }
+                return "\n" + content + ((borderCells.length() > 0) ? '\n' + borderCells.toString() : "");
+            }));
+            addRule("tableSection", new Rule(new String[]{"thead", "tbody", "tfoot"}, (content, element) -> content));
             addRule("default", new Rule((element -> true), (content, element) -> CopyNode.isBlock(element) ? "\n\n" + content + "\n\n" : content));
+        }
+
+        private String cell(String content, Node element) {
+            String prefix = " ";
+            if (element.siblingIndex() == 0) prefix = "| ";
+            return prefix + content + " |";
+        }
+
+        // A tableRow is a heading row if:
+        // - the parent is a THEAD
+        // - or if it's the first child of the TABLE or the first TBODY
+        private boolean isHeadingRow(Node tableRow) {
+            var parentNode = tableRow.parentNode();
+            assert parentNode != null;
+            return (
+                    parentNode.nodeName().equalsIgnoreCase("THEAD") ||
+                            (
+                                    parentNode.firstChild() == tableRow &&
+                                            (parentNode.nodeName().equalsIgnoreCase("TABLE") || isFirstTbody(parentNode))
+                            )
+            );
+        }
+
+        private boolean isFirstTbody(Node element) {
+            var previousSibling = element.previousSibling();
+            return (
+                    element.nodeName().equalsIgnoreCase("TBODY") && (
+                            previousSibling == null ||
+                                    (
+                                            previousSibling.nodeName().equalsIgnoreCase("THEAD") &&
+                                                    Pattern.compile("(?i)^\\s*$").matcher(element.outerHtml()).find()
+                                    )
+                    )
+            );
         }
 
         public Rule findRule (Node node) {

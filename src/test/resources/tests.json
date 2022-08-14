@@ -761,5 +761,53 @@
     },
     "input": "\n<pre><code>\nCode\n\n</code></pre>\n    ",
     "output": "```\n\nCode\n\n```"
+  },
+  {
+    "name": "basic table without thead or tbody",
+    "options": null,
+    "input": "<table>\n      <tr><td>Row 1 Cell 1</td><td>Row 1 Cell 2</td></tr>\n      <tr><td>Row 2 Cell 1</td><td>Row 2 Cell 2</td></tr>\n    </table>",
+    "output": "| Row 1 Cell 1 | Row 1 Cell 2 |\n| --- | --- |\n| Row 2 Cell 1 | Row 2 Cell 2 |"
+  },
+  {
+    "name": "basic table",
+    "options": null,
+    "input": "<table>\n      <thead>\n        <tr>\n          <th>Column 1</th>\n          <th>Column 2</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <td>Row 1, Column 1</td>\n          <td>Row 1, Column 2</td>\n        </tr>\n        <tr>\n          <td>Row 2, Column 1</td>\n          <td>Row 2, Column 2</td>\n        </tr>\n      </tbody>\n    </table>",
+    "output": "| Column 1 | Column 2 |\n| --- | --- |\n| Row 1, Column 1 | Row 1, Column 2 |\n| Row 2, Column 1 | Row 2, Column 2 |"
+  },
+  {
+    "name": "cell alignment",
+    "options": null,
+    "input": "<table>\n      <thead>\n        <tr>\n          <th align=\"left\">Column 1</th>\n          <th align=\"center\">Column 2</th>\n          <th align=\"right\">Column 3</th>\n          <th align=\"foo\">Column 4</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <td>Row 1, Column 1</td>\n          <td>Row 1, Column 2</td>\n          <td>Row 1, Column 3</td>\n          <td>Row 1, Column 4</td>\n        </tr>\n        <tr>\n          <td>Row 2, Column 1</td>\n          <td>Row 2, Column 2</td>\n          <td>Row 2, Column 3</td>\n          <td>Row 2, Column 4</td>\n        </tr>\n      </tbody>\n    </table>",
+    "output": "| Column 1 | Column 2 | Column 3 | Column 4 |\n| :-- | :-: | --: | --- |\n| Row 1, Column 1 | Row 1, Column 2 | Row 1, Column 3 | Row 1, Column 4 |\n| Row 2, Column 1 | Row 2, Column 2 | Row 2, Column 3 | Row 2, Column 4 |"
+  },
+  {
+    "name": "empty cells",
+    "options": null,
+    "input": "<table>\n      <thead>\n        <tr>\n          <th align=\"left\">Column 1</th>\n          <th align=\"center\">Column 2</th>\n          <th align=\"right\">Column 3</th>\n          <th align=\"foo\">Column 4</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <td></td>\n          <td>Row 1, Column 2</td>\n          <td>Row 1, Column 3</td>\n          <td>Row 1, Column 4</td>\n        </tr>\n        <tr>\n          <td>Row 2, Column 1</td>\n          <td></td>\n          <td>Row 2, Column 3</td>\n          <td>Row 2, Column 4</td>\n        </tr>\n        <tr>\n          <td>Row 3, Column 1</td>\n          <td>Row 3, Column 2</td>\n          <td></td>\n          <td>Row 3, Column 4</td>\n        </tr>\n        <tr>\n          <td>Row 4, Column 1</td>\n          <td>Row 4, Column 2</td>\n          <td>Row 4, Column 3</td>\n          <td></td>\n        </tr>\n        <tr>\n          <td></td>\n          <td></td>\n          <td></td>\n          <td>Row 5, Column 4</td>\n        </tr>\n      </tbody>\n    </table>",
+    "output": "| Column 1 | Column 2 | Column 3 | Column 4 |\n| :-- | :-: | --: | --- |\n|  | Row 1, Column 2 | Row 1, Column 3 | Row 1, Column 4 |\n| Row 2, Column 1 |  | Row 2, Column 3 | Row 2, Column 4 |\n| Row 3, Column 1 | Row 3, Column 2 |  | Row 3, Column 4 |\n| Row 4, Column 1 | Row 4, Column 2 | Row 4, Column 3 |  |\n|  |  |  | Row 5, Column 4 |"
+  },
+  {
+    "name": "th in first row",
+    "options": null,
+    "input": "<table>\n      <tr>\n        <th>Heading</th>\n      </tr>\n      <tr>\n        <td>Content</td>\n      </tr>\n    </table>",
+    "output": "| Heading |\n| --- |\n| Content |"
+  },
+  {
+    "name": "th first row in tbody",
+    "options": null,
+    "input": "<table>\n      <tbody>\n        <tr>\n          <th>Heading</th>\n        </tr>\n        <tr>\n          <td>Content</td>\n        </tr>\n      </tbody>\n    </table>",
+    "output": "| Heading |\n| --- |\n| Content |"
+  },
+  {
+    "name": "table with two tbodies",
+    "options": null,
+    "input": "<table>\n      <tbody>\n        <tr>\n          <th>Heading</th>\n        </tr>\n        <tr>\n          <td>Content</td>\n        </tr>\n      </tbody>\n      <tbody>\n        <tr>\n          <th>Heading</th>\n        </tr>\n        <tr>\n          <td>Content</td>\n        </tr>\n      </tbody>\n    </table>",
+    "output": "| Heading |\n| --- |\n| Content |\n| Heading |\n| Content |"
+  },
+  {
+    "name": "heading cells in both thead and tbody",
+    "options": null,
+    "input": "<table>\n      <thead><tr><th>Heading</th></tr></thead>\n      <tbody><tr><th>Cell</th></tr></tbody>\n    </table>",
+    "output": "| Heading |\n| --- |\n| Cell |"
   }
 ]

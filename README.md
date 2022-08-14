@@ -77,4 +77,6 @@ public class Main {
 ### Acknowledgment
 This library is a port to Java of the wonderful library [Turndown.js](https://github.com/domchristie/turndown). This library passes the same test suite as the original library to ensure same behavior.
 
+The support to convert tables to markdown is ported from the [turndown-plugin-gfm](https://github.com/mixmark-io/turndown-plugin-gfm) library. It uses also the same test as that library.
+
 This project is supported by Intellij open source license
