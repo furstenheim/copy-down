@@ -787,6 +787,12 @@
     "output": "| Column 1 | Column 2 | Column 3 | Column 4 |\n| :-- | :-: | --: | --- |\n|  | Row 1, Column 2 | Row 1, Column 3 | Row 1, Column 4 |\n| Row 2, Column 1 |  | Row 2, Column 3 | Row 2, Column 4 |\n| Row 3, Column 1 | Row 3, Column 2 |  | Row 3, Column 4 |\n| Row 4, Column 1 | Row 4, Column 2 | Row 4, Column 3 |  |\n|  |  |  | Row 5, Column 4 |"
   },
   {
+    "name": "table with <br>",
+    "options": null,
+    "input": "<table>\n      <thead>\n        <tr>\n          <th>Column<br> 1</th>\n          <th>Column 2</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr>\n          <td>Row 1, <br> Column 1</td>\n          <td>Row 1, Column 2</td>\n        </tr>\n        <tr>\n          <td>Row 2, Column 1</td>\n          <td>Row 2, Column 2</td>\n        </tr>\n      </tbody>\n    </table>",
+    "output": "| Column<br>1 | Column 2 |\n| --- | --- |\n| Row 1,<br>Column 1 | Row 1, Column 2 |\n| Row 2, Column 1 | Row 2, Column 2 |"
+  },
+  {
     "name": "th in first row",
     "options": null,
     "input": "<table>\n      <tr>\n        <th>Heading</th>\n      </tr>\n      <tr>\n        <td>Content</td>\n      </tr>\n    </table>",

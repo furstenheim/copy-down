@@ -131,7 +131,14 @@ public class CopyDown {
             addRule("blankReplacement", new Rule((element) -> CopyNode.isBlank(element), (content, element) ->
                     CopyNode.isBlock(element) ? "\n\n" : ""));
             addRule("paragraph", new Rule("p", (content, element) -> {return "\n\n" + content + "\n\n";}));
-            addRule("br", new Rule("br", (content, element) -> {return options.br + "\n";}));
+            addRule("br", new Rule("br", (content, element) -> {
+                // If the br tag is in a table keep the br tag. Otherwise, the table will not work in markdown.
+                if (element.parentNode() != null && Arrays.asList("td", "th").contains(element.parentNode().nodeName().toLowerCase())) {
+                    return element.outerHtml();
+                } else {
+                    return options.br + "\n";
+                }
+            }));
             addRule("heading", new Rule(new String[]{"h1", "h2", "h3", "h4", "h5", "h6" }, (content, element) -> {
                 Integer hLevel = Integer.parseInt(element.nodeName().substring(1, 2));
                 if (options.headingStyle == HeadingStyle.SETEXT && hLevel < 3) {
