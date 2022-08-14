@@ -126,7 +126,7 @@ class WhitespaceCollapser {
     }
 
     private boolean isBlock (Node element) {
-        // TODO allow to override with lambda in optiosn
+        // TODO allow to override with lambda in options
         return CopyNode.isBlock(element) ||  element.nodeName().equals("br");
     }
 

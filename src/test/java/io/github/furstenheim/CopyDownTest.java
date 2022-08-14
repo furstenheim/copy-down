@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.equalTo;
 class CopyDownTest {
     @ParameterizedTest
     @MethodSource("testCases")
-    public void mainTest(String name, TestCase testCase) throws IOException {
+    public void mainTest(String name, TestCase testCase) {
         CopyDown copyDown;
         if (testCase.options.isJsonNull()) {
             copyDown = new CopyDown();

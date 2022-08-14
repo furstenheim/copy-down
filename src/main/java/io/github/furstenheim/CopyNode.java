@@ -81,6 +81,10 @@ class CopyNode {
             } else {
                 textContent = element.outerHtml();
             }
+            // Don't put extra spaces for a line break
+            if (textContent.equals("\n")) {
+                return new FlankingWhiteSpaces("", "");
+            }
             // TODO original uses textContent
             boolean hasLeading = Pattern.compile("^\\s").matcher(textContent).find();
             boolean hasTrailing = Pattern.compile("\\s$").matcher(textContent).find();
