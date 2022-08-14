@@ -20,6 +20,18 @@ Maven:
 </dependencies>
 ```
 
+### JSoup Compatibility
+
+This library has a strong reliance on JSoup. Using a different version of it will lead to unexpected behaviours. Sadly, Java does not allow several versions of a library (unlike Node.js) so if your project is already using JSoup that version will have priority. 
+
+Supported versions are:
+
+| This Library | Jsoup |
+| ------------| --------| 
+| 1.0  | 1.13 |
+| 1.1 | 1.15 |
+
+
 ### Usage
 
 ```java
