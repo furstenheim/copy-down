@@ -340,7 +340,7 @@ public class CopyDown {
                 }
                 return "![" + alt + "]" + "(" + src + titlePart + ")";
             }));
-            addRule("tableCell", new Rule(new String[]{"th", "td"}, this::cell));
+            addRule("tableCell", new Rule(new String[]{"th", "td"}, (content, element) -> cell(content, element, false)));
             addRule("tableRow", new Rule("tr", (content, element) -> {
                 StringBuilder borderCells = new StringBuilder();
                 var alignMap = Map.of("left", ":--", "right", "--:", "center", ":-:");
@@ -354,7 +354,7 @@ public class CopyDown {
 
                         border = alignMap.getOrDefault(align, border);
 
-                        borderCells.append(cell(border, element.childNode(i)));
+                        borderCells.append(cell(border, element.childNode(i), true));
                     }
                 }
                 return "\n" + content + ((borderCells.length() > 0) ? '\n' + borderCells.toString() : "");
@@ -363,10 +363,18 @@ public class CopyDown {
             addRule("default", new Rule((element -> true), (content, element) -> CopyNode.isBlock(element) ? "\n\n" + content + "\n\n" : content));
         }
 
-        private String cell(String content, Node element) {
+        private String cell(String content, Node element, boolean borderCell) {
             String prefix = " ";
+            StringBuilder result;
             if (element.siblingIndex() == 0) prefix = "| ";
-            return prefix + content + " |";
+            result = new StringBuilder(prefix + content + " |");
+            try {
+                int colspan = Integer.parseInt(element.attr("colspan")) -1;
+                String colspanContent = borderCell ? " " + content + " |" : " |";
+                result.append(colspanContent.repeat(Math.max(0, colspan)));
+            } catch (NumberFormatException e) {
+            }
+            return result.toString();
         }
 
         // A tableRow is a heading row if:
